@@ -1,0 +1,40 @@
+:root {
+    --color: #222222; /* Main text color - dark grey */
+    --bg-color: #FFFFFF; /* Main background color - white */
+    --accent: 118, 185, 0; /* Primary accent color (NVIDIA Green) as RGB */
+    --inverse-accent: 255, 255, 255; /* White for inverse accent */
+    /* Design Tokens for Colors */
+    --color-text-heading: #222222; /* Heading text color */
+    --color-border-default: #E5E5E5; /* Default border color */
+    --color-text-subheading: #555555; /* Subheading text color */
+    --color-text-muted: #888888; /* Muted text color */
+    --color-menu-bg: #F5F5F5; /* Sidebar menu background - very light grey */
+    --color-menu-text: #222222; /* Sidebar menu text color - dark grey */
+    --color-menu-selected-bg: #76B900; /* Selected menu item background - NVIDIA Green */
+    --color-text-on-accent: #FFFFFF; /* Text color for elements on accent backgrounds - white */
+    --overlay-color: 0, 0, 0; /* Overlay color as RGB triplet - black */
+    --color-menu-link-hover-bg: #EFEFEF; /* Background for menu link on hover/focus - lighter menu bg */
+    --color-menu-item-hover-bg: rgba(var(--accent), 0.1); /* Background for menu item on hover/focus - very light accent green */
+    --color-menu-item-hover-text: var(--color-menu-text); /* Text color for menu item on hover/focus */
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color: #E0E0E0; /* Main text color - light grey */
+        --bg-color: #1A1A1A; /* Main background color - dark grey */
+        --accent: 118, 185, 0; /* Primary accent color (NVIDIA Green) as RGB */
+        --inverse-accent: 255, 255, 255; /* White for inverse accent */
+        --color-text-heading: #F0F0F0; /* Heading text color */
+        --color-border-default: #333333; /* Default border color */
+        --color-text-subheading: #A0A0A0; /* Subheading text color */
+        --color-text-muted: #B0B0B0; /* Muted text color */
+        --color-menu-bg: #0D0D0D; /* Sidebar menu background - very dark grey */
+        --color-menu-text: #E0E0E0; /* Sidebar menu text color - light grey */
+        --color-menu-selected-bg: #76B900; /* Selected menu item background - NVIDIA Green */
+        --color-text-on-accent: #FFFFFF; /* Text color for elements on accent backgrounds - white */
+        --overlay-color: 0, 0, 0; /* Overlay color as RGB triplet - black */
+        --color-menu-link-hover-bg: #222222; /* Background for menu link on hover/focus - lighter menu bg */
+        --color-menu-item-hover-bg: rgba(var(--accent), 0.1); /* Background for menu item on hover/focus - very light accent green */
+        --color-menu-item-hover-text: var(--color-menu-text); /* Text color for menu item on hover/focus */
+    }
+}

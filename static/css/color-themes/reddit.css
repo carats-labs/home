@@ -1,0 +1,40 @@
+:root {
+    --color: #1A1A1B; /* Main text color - dark grey */
+    --bg-color: #DAE0E6; /* Main background color - light grey */
+    --accent: 255, 69, 0; /* Primary accent color (Reddit Orange) as RGB */
+    --inverse-accent: 255, 255, 255; /* White for inverse accent */
+    /* Design Tokens for Colors */
+    --color-text-heading: #1A1A1B; /* Heading text color */
+    --color-border-default: #CCCCCC; /* Default border color */
+    --color-text-subheading: #444444; /* Subheading text color */
+    --color-text-muted: #777777; /* Muted text color */
+    --color-menu-bg: #F6F7F8; /* Sidebar menu background - very light grey */
+    --color-menu-text: #1A1A1B; /* Sidebar menu text color - dark grey */
+    --color-menu-selected-bg: #FF4500; /* Selected menu item background - Reddit Orange */
+    --color-text-on-accent: #FFFFFF; /* Text color for elements on accent backgrounds - white */
+    --overlay-color: 0, 0, 0; /* Overlay color as RGB triplet - black */
+    --color-menu-link-hover-bg: #EAEAEA; /* Background for menu link on hover/focus - darker menu bg */
+    --color-menu-item-hover-bg: rgba(var(--accent), 0.1); /* Background for menu item on hover/focus - very light accent orange */
+    --color-menu-item-hover-text: var(--color-menu-text); /* Text color for menu item on hover/focus */
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color: #D7DADC; /* Main text color - light grey */
+        --bg-color: #030303; /* Main background color - very dark grey */
+        --accent: 255, 69, 0; /* Primary accent color (Reddit Orange) as RGB */
+        --inverse-accent: 255, 255, 255; /* White for inverse accent */
+        --color-text-heading: #D7DADC; /* Heading text color */
+        --color-border-default: #343536; /* Default border color */
+        --color-text-subheading: #A8A8A8; /* Subheading text color */
+        --color-text-muted: #C0C0C0; /* Muted text color */
+        --color-menu-bg: #1A1A1B; /* Sidebar menu background - dark grey */
+        --color-menu-text: #D7DADC; /* Sidebar menu text color - light grey */
+        --color-menu-selected-bg: #CC3700; /* Selected menu item background - darker Reddit Orange */
+        --color-text-on-accent: #FFFFFF; /* Text color for elements on accent backgrounds - white */
+        --overlay-color: 0, 0, 0; /* Overlay color as RGB triplet - black */
+        --color-menu-link-hover-bg: #2A2A2B; /* Background for menu link on hover/focus - lighter menu bg */
+        --color-menu-item-hover-bg: rgba(var(--accent), 0.1); /* Background for menu item on hover/focus - very light accent orange */
+        --color-menu-item-hover-text: var(--color-menu-text); /* Text color for menu item on hover/focus */
+    }
+}

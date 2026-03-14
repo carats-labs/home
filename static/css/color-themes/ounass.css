@@ -1,0 +1,40 @@
+:root {
+    --color: #333333; /* Main text color - dark grey */
+    --bg-color: #F8F8F8; /* Main background color - very light grey */
+    --accent: 184, 114, 83; /* Primary accent color (Ounass new primary) as RGB */
+    --inverse-accent: 255, 255, 255; /* White for inverse accent */
+    /* Design Tokens for Colors */
+    --color-text-heading: #333333; /* Heading text color */
+    --color-border-default: #E0E0E0; /* Default border color */
+    --color-text-subheading: #666666; /* Subheading text color */
+    --color-text-muted: #999999; /* Muted text color */
+    --color-menu-bg: #F0F0F0; /* Sidebar menu background - very light grey */
+    --color-menu-text: #333333; /* Sidebar menu text color - dark grey */
+    --color-menu-selected-bg: #A06040; /* Selected menu item background - darker Ounass new primary */
+    --color-text-on-accent: #FFFFFF; /* Text color for elements on accent backgrounds - white */
+    --overlay-color: 0, 0, 0; /* Overlay color as RGB triplet - black */
+    --color-menu-link-hover-bg: #E0E0E0; /* Background for menu link on hover/focus - slightly darker light grey */
+    --color-menu-item-hover-bg: rgba(var(--accent), 0.1); /* Background for menu item on hover/focus - very light accent gold */
+    --color-menu-item-hover-text: var(--color-menu-text); /* Text color for menu item on hover/focus */
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color: #E0E0E0; /* Main text color - light grey */
+        --bg-color: #1A1A1A; /* Main background color - dark grey */
+        --accent: 184, 114, 83; /* Primary accent color (Ounass new primary) as RGB */
+        --inverse-accent: 255, 255, 255; /* White for inverse accent */
+        --color-text-heading: #F0F0F0; /* Heading text color */
+        --color-border-default: #3A3A3A; /* Default border color */
+        --color-text-subheading: #B0B0B0; /* Subheading text color */
+        --color-text-muted: #D0D0D0; /* Muted text color */
+        --color-menu-bg: #0D0D0D; /* Sidebar menu background - very dark grey */
+        --color-menu-text: #F5F5F5; /* Sidebar menu text color - slightly off-white */
+        --color-menu-selected-bg: #A06040; /* Selected menu item background - darker Ounass new primary */
+        --color-text-on-accent: #FFFFFF; /* Text color for elements on accent backgrounds - white */
+        --overlay-color: 0, 0, 0; /* Overlay color as RGB triplet - black */
+        --color-menu-link-hover-bg: #222222; /* Background for menu link on hover/focus - lighter menu bg */
+        --color-menu-item-hover-bg: rgba(var(--accent), 0.1); /* Background for menu item on hover/focus - very light accent gold */
+        --color-menu-item-hover-text: var(--color-menu-text); /* Text color for menu item on hover/focus */
+    }
+}

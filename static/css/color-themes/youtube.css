@@ -1,0 +1,40 @@
+:root {
+    --color: #0F0F0F; /* Main text color - very dark grey */
+    --bg-color: #FFFFFF; /* Main background color - white */
+    --accent: 255, 0, 0; /* Primary accent color (YouTube Red) as RGB */
+    --inverse-accent: 255, 255, 255; /* White for inverse accent */
+    /* Design Tokens for Colors */
+    --color-text-heading: #0F0F0F; /* Heading text color */
+    --color-border-default: #E0E0E0; /* Default border color */
+    --color-text-subheading: #606060; /* Subheading text color */
+    --color-text-muted: #909090; /* Muted text color */
+    --color-menu-bg: #F9F9F9; /* Sidebar menu background - very light grey */
+    --color-menu-text: #0F0F0F; /* Sidebar menu text color - very dark grey */
+    --color-menu-selected-bg: #CC0000; /* Selected menu item background - darker YouTube Red */
+    --color-text-on-accent: #FFFFFF; /* Text color for elements on accent backgrounds - white */
+    --overlay-color: 0, 0, 0; /* Overlay color as RGB triplet - black */
+    --color-menu-link-hover-bg: #EBEBEB; /* Background for menu link on hover/focus - lighter menu bg */
+    --color-menu-item-hover-bg: rgba(var(--accent), 0.1); /* Background for menu item on hover/focus - very light accent red */
+    --color-menu-item-hover-text: var(--color-menu-text); /* Text color for menu item on hover/focus */
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color: #F1F1F1; /* Main text color - light grey */
+        --bg-color: #181818; /* Main background color - dark grey */
+        --accent: 255, 0, 0; /* Primary accent color (YouTube Red) as RGB */
+        --inverse-accent: 255, 255, 255; /* White for inverse accent */
+        --color-text-heading: #F1F1F1; /* Heading text color */
+        --color-border-default: #303030; /* Default border color */
+        --color-text-subheading: #AAAAAA; /* Subheading text color */
+        --color-text-muted: #BBBBBB; /* Muted text color */
+        --color-menu-bg: #202020; /* Sidebar menu background - slightly lighter dark grey */
+        --color-menu-text: #F1F1F1; /* Sidebar menu text color - light grey */
+        --color-menu-selected-bg: #CC0000; /* Selected menu item background - darker YouTube Red */
+        --color-text-on-accent: #FFFFFF; /* Text color for elements on accent backgrounds - white */
+        --overlay-color: 0, 0, 0; /* Overlay color as RGB triplet - black */
+        --color-menu-link-hover-bg: #282828; /* Background for menu link on hover/focus - lighter menu bg */
+        --color-menu-item-hover-bg: rgba(var(--accent), 0.1); /* Background for menu item on hover/focus - very light accent red */
+        --color-menu-item-hover-text: var(--color-menu-text); /* Text color for menu item on hover/focus */
+    }
+}

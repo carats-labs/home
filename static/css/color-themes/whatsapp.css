@@ -1,0 +1,40 @@
+:root {
+    --color: #11181C; /* Main text color - dark grey */
+    --bg-color: #ECE5DD; /* Main background color - light beige */
+    --accent: 7, 94, 84; /* Primary accent color (WhatsApp Green) as RGB */
+    --inverse-accent: 255, 255, 255; /* White for inverse accent */
+    /* Design Tokens for Colors */
+    --color-text-heading: #11181C; /* Heading text color */
+    --color-border-default: #B0B0B0; /* Default border color */
+    --color-text-subheading: #444444; /* Subheading text color */
+    --color-text-muted: #777777; /* Muted text color */
+    --color-menu-bg: #E0DCD4; /* Sidebar menu background - slightly darker beige */
+    --color-menu-text: #11181C; /* Sidebar menu text color - dark grey */
+    --color-menu-selected-bg: #128C7E; /* Selected menu item background - secondary WhatsApp green */
+    --color-text-on-accent: #FFFFFF; /* Text color for elements on accent backgrounds - white */
+    --overlay-color: 0, 0, 0; /* Overlay color as RGB triplet - black */
+    --color-menu-link-hover-bg: #D0C8C0; /* Background for menu link on hover/focus - darker menu bg */
+    --color-menu-item-hover-bg: rgba(var(--accent), 0.1); /* Background for menu item on hover/focus - very light accent green */
+    --color-menu-item-hover-text: var(--color-menu-text); /* Text color for menu item on hover/focus */
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color: #E9EDEF; /* Main text color - light grey */
+        --bg-color: #111B21; /* Main background color - very dark blue-grey */
+        --accent: 7, 94, 84; /* Primary accent color (WhatsApp Green) as RGB */
+        --inverse-accent: 255, 255, 255; /* White for inverse accent */
+        --color-text-heading: #E9EDEF; /* Heading text color */
+        --color-border-default: #3A444B; /* Default border color */
+        --color-text-subheading: #B0B0B0; /* Subheading text color */
+        --color-text-muted: #C0C0C0; /* Muted text color */
+        --color-menu-bg: #0A1418; /* Sidebar menu background - very dark grey */
+        --color-menu-text: #E9EDEF; /* Sidebar menu text color - light grey */
+        --color-menu-selected-bg: #005C4B; /* Selected menu item background - darker WhatsApp green */
+        --color-text-on-accent: #FFFFFF; /* Text color for elements on accent backgrounds - white */
+        --overlay-color: 0, 0, 0; /* Overlay color as RGB triplet - black */
+        --color-menu-link-hover-bg: #1A2428; /* Background for menu link on hover/focus - lighter menu bg */
+        --color-menu-item-hover-bg: rgba(var(--accent), 0.1); /* Background for menu item on hover/focus - very light accent green */
+        --color-menu-item-hover-text: var(--color-menu-text); /* Text color for menu item on hover/focus */
+    }
+}

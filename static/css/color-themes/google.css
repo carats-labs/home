@@ -1,0 +1,40 @@
+:root {
+    --color: #202124; /* Main text color - dark grey */
+    --bg-color: #FFFFFF; /* Main background color - white */
+    --accent: 66, 133, 244; /* Primary accent color (Google Blue) as RGB */
+    --inverse-accent: 255, 255, 255; /* White for inverse accent */
+    /* Design Tokens for Colors */
+    --color-text-heading: #202124; /* Heading text color */
+    --color-border-default: #DADCE0; /* Default border color */
+    --color-text-subheading: #5F6368; /* Subheading text color */
+    --color-text-muted: #9AA0A6; /* Muted text color */
+    --color-menu-bg: #F8F9FA; /* Sidebar menu background - very light grey */
+    --color-menu-text: #202124; /* Sidebar menu text color - dark grey */
+    --color-menu-selected-bg: #4285F4; /* Selected menu item background - Google Blue */
+    --color-text-on-accent: #FFFFFF; /* Text color for elements on accent backgrounds - white */
+    --overlay-color: 0, 0, 0; /* Overlay color as RGB triplet - black */
+    --color-menu-link-hover-bg: #E8EAED; /* Background for menu link on hover/focus - lighter menu bg */
+    --color-menu-item-hover-bg: rgba(var(--accent), 0.1); /* Background for menu item on hover/focus - very light accent blue */
+    --color-menu-item-hover-text: var(--color-menu-text); /* Text color for menu item on hover/focus */
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color: #E8EAED; /* Main text color - light grey */
+        --bg-color: #202124; /* Main background color - dark grey */
+        --accent: 66, 133, 244; /* Primary accent color (Google Blue) as RGB */
+        --inverse-accent: 255, 255, 255; /* White for inverse accent */
+        --color-text-heading: #E8EAED; /* Heading text color */
+        --color-border-default: #5F6368; /* Default border color */
+        --color-text-subheading: #A0A0A0; /* Subheading text color */
+        --color-text-muted: #B0B0B0; /* Muted text color */
+        --color-menu-bg: #292A2D; /* Sidebar menu background - slightly lighter dark grey */
+        --color-menu-text: #E8EAED; /* Sidebar menu text color - light grey */
+        --color-menu-selected-bg: #4285F4; /* Selected menu item background - Google Blue */
+        --color-text-on-accent: #FFFFFF; /* Text color for elements on accent backgrounds - white */
+        --overlay-color: 0, 0, 0; /* Overlay color as RGB triplet - black */
+        --color-menu-link-hover-bg: #3C4043; /* Background for menu link on hover/focus - lighter menu bg */
+        --color-menu-item-hover-bg: rgba(var(--accent), 0.1); /* Background for menu item on hover/focus - very light accent blue */
+        --color-menu-item-hover-text: var(--color-menu-text); /* Text color for menu item on hover/focus */
+    }
+}

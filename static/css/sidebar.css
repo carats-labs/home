@@ -1,0 +1,543 @@
+@import url('./color-themes/instant-docs.css');
+
+body {
+    color: var(--color);
+    background-color: var(--bg-color);
+}
+
+a {
+    color: inherit;
+}
+
+img {
+    height: 100%;
+    width: auto;
+}
+
+/*
+Add transition to containers so they can push in and out.
+*/
+#layout,
+#menu,
+a#menuLink,
+main {
+    /* Add main to transition for smooth content shift */
+    -webkit-transition: transform 0.3s ease-out;
+    -moz-transition: transform 0.3s ease-out;
+    -ms-transition: transform 0.3s ease-out;
+    -o-transition: transform 0.3s ease-out;
+    transition: transform 0.3s ease-out;
+}
+
+/*
+This is the parent `<div>` that contains the menu and the content area.
+*/
+#layout {
+    position: relative;
+    /* Hide horizontal overflow to prevent scrollbar when menu is off-screen */
+    min-height: 100svh;
+}
+
+main>article {
+    margin: 0 auto;
+    box-sizing: border-box;
+    min-height: calc(100svh - 200px);
+    padding: 3rem 2rem 2rem 2rem;
+    max-width: 800px;
+    line-height: 1.6em;
+}
+
+/* Assuming content-subhead is a direct child of a section or has a unique ID */
+section h2:last-of-type {
+    /* This is a heuristic, assuming content-subhead is the last h2 in a section */
+    margin: 50px 0 20px 0;
+    font-weight: 300;
+    color: var(--color-text-muted);
+}
+
+
+/*
+The `#menu` `<div>` is the parent `<div>` that contains the `<nav>` that
+appears on the left side of the page.
+*/
+
+#menu {
+    width: 350px;
+    /* Set explicit width for transform */
+    position: fixed;
+    /* Ensure it's fixed for off-canvas behavior */
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1000;
+    /* so the menu or its navicon stays above all content */
+    background: var(--color-menu-bg);
+    /* overflow-y: auto; /* Allow scrolling for menu content */
+    transform: translateX(-100%);
+    /* Hide initially off-screen */
+}
+
+/*
+    All anchors inside the menu should be styled like this.
+    */
+#menu a {
+    color: var(--color-menu-text);
+    border: none;
+    padding: 0.6em 1em 0.6em 0.6em;
+}
+
+#menu nav {
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+}
+
+/*
+    Remove all background/borders, since we are applying them to #menu.
+    */
+#menu nav,
+#menu nav ul {
+    border: none;
+    background: transparent;
+}
+
+/*
+    Add that light border to separate items into groups.
+    */
+#menu nav ul {
+    /* Targets .pure-menu ul and .menu-item-divided */
+    border-top: 1px solid var(--color-text-heading);
+}
+
+/*
+        Change color of the anchor links on hover/focus.
+        */
+#menu nav li:hover,
+#menu nav li:has(:focus-visible) {
+    background: var(--color-menu-item-hover-bg);
+    color: var(--color-menu-item-hover-text);
+    /* Add text color for hover/focus */
+}
+
+/*
+    This styles the selected menu item `<li>`.
+    */
+[aria-current="page"] {
+    /* Added for expanded menu items */
+    font-weight: bold;
+}
+
+/*
+        This styles a link within a selected menu item `<li>`.
+        */
+#menu nav li[aria-current="page"] a {
+    /* Targets .pure-menu-selected a */
+    color: var(--color-text-on-accent);
+}
+
+/*
+    This styles the menu heading.
+    */
+#logo-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: .5rem;
+    padding-right: 1rem;
+    /* background: var(--accent); */
+    color: var(--color);
+}
+
+#logo-wrapper a {
+    padding: 0;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    margin-right: .5em;
+    text-decoration: none;
+    max-width: 200px;
+    font-size: 16pt;
+}
+
+#logo {
+    display: block;
+    height: 2em;
+    width: 150px;
+    /* background-image: url('/static/assets/logo_dark.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center; */
+}
+
+/* -- Dynamic Button For Responsive Menu -------------------------------------*/
+
+/*
+The button to open/close the Menu is custom-made and not part of Pure. Here's
+how it works:
+*/
+
+/*
+`a#menuLink` represents the responsive menu toggle that shows/hides on
+small screens.
+*/
+a#menuLink {
+    position: fixed;
+    display: block;
+    /* show this only on small screens */
+    top: 0;
+    left: 100%;
+    background: rgb(var(--accent));
+    font-size: 10px;
+    /* change this value to increase/decrease button size */
+    z-index: 1001;
+    /* Ensure it's above the menu */
+    width: 2em;
+    height: auto;
+    padding: 2.1em 1.6em;
+    border-radius: 2px
+}
+
+a#menuLink:hover,
+a#menuLink:focus {
+    background: var(--color-menu-link-hover-bg);
+}
+
+a#menuLink span {
+    position: relative;
+    display: block;
+}
+
+a#menuLink span,
+a#menuLink span:before,
+a#menuLink span:after {
+    background-color: var(--color-text-on-accent);
+    pointer-events: none;
+    width: 100%;
+    height: 0.2em;
+}
+
+a#menuLink span:before,
+a#menuLink span:after {
+    position: absolute;
+    margin-top: -0.6em;
+    content: " ";
+}
+
+a#menuLink span:after {
+    margin-top: 0.6em;
+}
+
+
+/* -- Responsive Styles (Media Queries) ------------------------------------- */
+
+@media not (min-width: 48em) {
+    body:has(#layout[data-active="true"]) {
+        /* Replaces body:has(#layout.active) */
+        overflow: hidden;
+    }
+
+    #menu {
+        position: fixed;
+    }
+
+    #layout[data-active="true"] main::before {
+        /* Replaces #layout.active main::before */
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(var(--overlay-color), 0.75);
+        z-index: 999;
+        /* Below menu (1000) but above content */
+        opacity: .75;
+        transition: opacity 0.3s ease-out;
+    }
+
+    #layout[data-active="true"] #menu {
+        /* Replaces #layout.active #menu */
+        transform: translateX(0);
+        /* Show menu when active */
+    }
+
+    /* Push content to the right when menu is active */
+    #layout[data-active="true"] main {
+        /* Replaces #layout.active main */
+        transform: translateX(350px);
+    }
+}
+
+/*
+Hides the menu at `48em`, but modify this based on your app's needs.
+*/
+@media (min-width: 48em) {
+    main>div {
+        /* Targets .header and .content */
+        padding-left: 2em;
+        padding-right: 2em;
+    }
+
+    #menu {
+        transform: translateX(0);
+        /* Menu is always visible on large screens */
+    }
+
+    #layout {
+        padding-left: 350px;
+    }
+
+    #menuLink {
+        display: none !important;
+        /* Hide hamburger button on large screens */
+    }
+}
+
+#search-bar {
+    color: var(--color);
+    background-color: var(--bg-color);
+    box-shadow: none;
+    width: 100%;
+}
+
+#search-result-container {
+    position: relative;
+    border: 2px solid rgb(var(--accent));
+    border-radius: 4px;
+    margin-block: .5rem;
+    box-sizing: border-box;
+    transition: all .2s;
+    max-height: 350px;
+}
+
+#search-result-container[data-hide="true"] {
+    /* Removed as it's a class selector */
+    opacity: 0;
+    max-height: 0;
+}
+
+#search-result-container a {
+    text-decoration: none;
+}
+
+#search-result-container h1,
+#search-result-container h2,
+#search-result-container h3,
+#search-result-container h4,
+#search-result-container h5,
+#search-result-container h6 {
+    text-decoration: underline;
+}
+
+#search-result-container ol {
+    /* Targets .search-result-list */
+    margin: 0;
+    padding: 0;
+    display: grid;
+    max-height: inherit;
+    overflow-y: auto;
+    grid-template-rows: 1fr;
+    list-style: none;
+    transition: all .2s;
+}
+
+#search-result-container ol>*,
+/* Targets .search-result-list > * */
+#search-result-container> :not(ol, ul) {
+    color: inherit;
+    padding: 1rem 2rem;
+}
+
+/* #search-result-list li:nth-child(odd) { Removed color rule */
+/*     color: rgb(var(--accent)); */
+/*     background-color: rgb(var(--inverse-accent)); */
+/* } */
+
+#search-result-container li:nth-child(even) {
+    /* Targets .search-result-list li:nth-child(even) */
+    background-color: rgb(var(--accent));
+    color: rgb(var(--color-text-on-accent));
+}
+
+/* #search-result-list li:nth-child(even) h4, Removed color rule */
+/* #search-result-list li:nth-child(even) p { Removed color rule */
+/*     color: var(--bg-color) !important; */
+/* } */
+
+#search-result-container ol li h4,
+/* Targets .search-result-list li h4 */
+#search-result-container ol li p {
+    /* Targets .search-result-list li p */
+    color: inherit;
+    margin: 0;
+}
+
+#search-result-container:not(:has(*)) {
+    opacity: 0;
+}
+
+li[role="group"] {
+    /* Targets .expandable */
+    list-style: none;
+}
+
+li>button[aria-controls] {
+    display: inline;
+}
+
+li>ol,
+li>ul {
+    max-height: 0;
+    /* transition: .3s; */
+    overflow: hidden;
+}
+
+li[aria-expanded="true"]>ol,
+li[aria-expanded="true"]>ul {
+    max-height: inherit;
+    overflow: auto;
+}
+
+.chevron {
+    display: block;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.5rem;
+    background-color: currentColor;
+    width: 1rem;
+    height: 40%;
+    opacity: .6;
+    mask: url('/static/assets/chevron.svg');
+    mask-size: contain;
+    mask-position: center;
+    mask-repeat: no-repeat;
+    margin-inline: 1rem;
+    user-select: none;
+}
+
+[aria-expanded]:hover .chevron {
+    /* Targets label:hover .chevron */
+    opacity: .9;
+}
+
+[aria-expanded="true"]>div .chevron {
+    transform: rotate(90deg);
+}
+
+#menu nav ul li label {
+    /* Targets .pure-menu-item label */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#menu nav ul li label:hover {
+    /* Targets .pure-menu-item label:hover */
+    cursor: pointer;
+    background: var(--color-menu-item-hover-bg);
+    color: var(--color-menu-item-hover-text);
+}
+
+li[role="group"]>div {
+    /* Targets .flex-menu-item */
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    box-sizing: border-box;
+}
+
+li[role="group"]>div>a {
+    /* Targets .grow */
+    flex-grow: 1;
+}
+
+.dropdown {
+    /* Targets .dropdown */
+    position: relative;
+    font-size: 10pt;
+    --background-opacity: .85;
+    background: rgba(var(--accent), var(--background-opacity));
+    border-radius: 0.2em;
+    text-align: left;
+    color: var(--color-text-on-accent);
+    cursor: pointer;
+}
+
+.dropdown:hover {
+    /* Targets .dropdown:hover */
+    --background-opacity: 1;
+}
+
+.dropdown::after {
+    /* Targets .dropdown::after */
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    right: .5em;
+    width: 1em;
+    height: 90%;
+    transform: rotate(90deg);
+    mask: url('/static/assets/chevron.svg');
+    mask-repeat: no-repeat;
+    mask-size: auto 1em;
+    mask-position: right center;
+    background-color: currentColor;
+}
+
+.dropdown:has(select:focus-visible) {
+    /* Targets .dropdown:has(select:focus-visible) */
+    outline: 2px solid rgb(var(--inverse-accent));
+}
+
+.dropdown input,
+/* Targets .dropdown input */
+.dropdown select {
+    /* Targets .dropdown select */
+    appearance: none;
+    display: inline-block;
+    width: 100%;
+    color: inherit;
+    border: none;
+    background: none;
+    outline: none;
+    cursor: inherit;
+    text-align: inherit;
+    padding: 0.4em;
+    padding-right: 2em;
+}
+
+.dropdown select option {
+    /* Targets .dropdown select option */
+    background: rgb(var(--accent));
+}
+
+footer {
+    text-align: center;
+    box-sizing: border-box;
+    padding: 2rem;
+    background-color: #121212;
+    color: #eee;
+    height: 200px;
+}
+
+.grid {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: end;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+.footer-icon {
+    height: 1rem;
+    width: auto;
+    object-fit: contain;
+}

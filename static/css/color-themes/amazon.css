@@ -1,0 +1,40 @@
+:root {
+    --color: #111111; /* Main text color - dark grey */
+    --bg-color: #FFFFFF; /* Main background color - white */
+    --accent: 255, 153, 0; /* Primary accent color (Amazon Orange) as RGB */
+    --inverse-accent: 255, 255, 255; /* White for inverse accent */
+    /* Design Tokens for Colors */
+    --color-text-heading: #111111; /* Heading text color */
+    --color-border-default: #DDDDDD; /* Default border color */
+    --color-text-subheading: #555555; /* Subheading text color */
+    --color-text-muted: #777777; /* Muted text color */
+    --color-menu-bg: #F3F3F3; /* Sidebar menu background - very light grey */
+    --color-menu-text: #111111; /* Sidebar menu text color - dark grey */
+    --color-menu-selected-bg: #FF9900; /* Selected menu item background - Amazon Orange */
+    --color-text-on-accent: #FFFFFF; /* Text color for elements on accent backgrounds - white */
+    --overlay-color: 0, 0, 0; /* Overlay color as RGB triplet - black */
+    --color-menu-link-hover-bg: #E8E8E8; /* Background for menu link on hover/focus - lighter menu bg */
+    --color-menu-item-hover-bg: rgba(var(--accent), 0.1); /* Background for menu item on hover/focus - very light accent orange */
+    --color-menu-item-hover-text: var(--color-menu-text); /* Text color for menu item on hover/focus */
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color: #F0F0F0; /* Main text color - light grey */
+        --bg-color: #131A22; /* Main background color - dark blue-grey */
+        --accent: 255, 153, 0; /* Primary accent color (Amazon Orange) as RGB */
+        --inverse-accent: 255, 255, 255; /* White for inverse accent */
+        --color-text-heading: #F0F0F0; /* Heading text color */
+        --color-border-default: #333D47; /* Default border color */
+        --color-text-subheading: #B0B0B0; /* Subheading text color */
+        --color-text-muted: #C0C0C0; /* Muted text color */
+        --color-menu-bg: #0A1016; /* Sidebar menu background - very dark blue-grey */
+        --color-menu-text: #F0F0F0; /* Sidebar menu text color - light grey */
+        --color-menu-selected-bg: #CC7A00; /* Selected menu item background - darker Amazon Orange */
+        --color-text-on-accent: #FFFFFF; /* Text color for elements on accent backgrounds - white */
+        --overlay-color: 0, 0, 0; /* Overlay color as RGB triplet - black */
+        --color-menu-link-hover-bg: #1A222C; /* Background for menu link on hover/focus - lighter menu bg */
+        --color-menu-item-hover-bg: rgba(var(--accent), 0.1); /* Background for menu item on hover/focus - very light accent orange */
+        --color-menu-item-hover-text: var(--color-menu-text); /* Text color for menu item on hover/focus */
+    }
+}

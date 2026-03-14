@@ -1,0 +1,16 @@
+{
+    "en": {
+        "table_of_contents": "Table of Contents",
+        "search_bar_text": "Search...",
+        "expand": "Expand",
+        "home": "Home",
+        "toggle_menu": "Toggle menu"
+    },
+    "fr": {
+        "table_of_contents": "Table des matières",
+        "search_bar_text": "Recherche...",
+        "expand": "Étendre",
+        "home": "Accueil",
+        "toggle_menu": "Basculer le menu"
+    }
+}
