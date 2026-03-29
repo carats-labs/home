@@ -15,8 +15,8 @@ importers:
         specifier: ^1.7.1
         version: 1.7.1
       instant-docs:
-        specifier: ^4.0.0
-        version: 4.0.0
+        specifier: ^4.1.0
+        version: 4.1.0
     devDependencies:
       nodemon:
         specifier: ^3.1.10
@@ -472,8 +472,8 @@ packages:
     resolution: {integrity: sha512-0hJU9SCPvmMzIBdZFqNPXWa6dqh7WdH0cII9y+CyS8rG3nL48Bclra9HmKhVVUHyPWNH5Y7xDwAB7bfgSjkUMQ==}
     engines: {node: '>= 0.4'}
 
-  htmlfy@0.7.5:
-    resolution: {integrity: sha512-woog97QSD0MJVXDs4nNz3S/XIb+wa/UgunpaI29tbXaTB9SlNvQalw1XolE4m3BPp3xkJMx96I27Lb/clesPLA==}
+  htmlfy@0.8.1:
+    resolution: {integrity: sha512-xWROBw9+MEGwxpotll0h672KCaLrKKiCYzsyN8ZgL9cQbVumFnyvsk2JqiB9ELAV1GLj1GG/jxZUjV9OZZi/yQ==}
 
   htmlparser2@9.1.0:
     resolution: {integrity: sha512-5zfg6mHUoaer/97TxnGpxmbR7zJtPwIYFMZ/H5ucTlPZhKvtum05yiPK3Mgai3a0DyVxv7qYqoweaEd2nrYQzQ==}
@@ -499,8 +499,8 @@ packages:
   instajax@1.7.1:
     resolution: {integrity: sha512-mhmqaTRH0l0E/sZZ5K6AJop89Fw4cSqrifd/7gBKxPCvc0O+pvsaKgwIPLnTf8YFJpuckyJIGaHo0y8/WKPo/g==}
 
-  instant-docs@4.0.0:
-    resolution: {integrity: sha512-I7h+Vh0U6Xamajipz51gJ09Y6CxHQ2F273rdl5G6MbepCCXsk8esvgZAD7Fe0eg2XbpIMihCRHXbb+NzhkvyIA==}
+  instant-docs@4.1.0:
+    resolution: {integrity: sha512-dTfeEl5wWJGD1JxIhJ4wsnJusve5/P1ha+w/7QEinmQwcgooFfrFg5egl+hszn6k/Imt62K5fR/slwpIwY0wRg==}
     hasBin: true
 
   ipaddr.js@1.9.1:
@@ -1189,7 +1189,7 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
-  htmlfy@0.7.5: {}
+  htmlfy@0.8.1: {}
 
   htmlparser2@9.1.0:
     dependencies:
@@ -1220,7 +1220,7 @@ snapshots:
 
   instajax@1.7.1: {}
 
-  instant-docs@4.0.0:
+  instant-docs@4.1.0:
     dependencies:
       axios: 1.9.0
       cheerio: 1.0.0
@@ -1229,7 +1229,7 @@ snapshots:
       dotenv: 16.5.0
       esbuild: 0.24.2
       express: 4.21.2
-      htmlfy: 0.7.5
+      htmlfy: 0.8.1
       pkg-dir: 8.0.0
       showdown: 2.1.0
     transitivePeerDependencies:
