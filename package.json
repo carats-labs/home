@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "instant-docs",
-    "build": "instant-docs --build",
+    "build": "instant-docs --build && node postbuild.js",
     "dev": "nodemon"
   },
   "keywords": [],
@@ -14,7 +14,7 @@
   "dependencies": {
     "cheerio": "^1.0.0",
     "instajax": "^1.7.1",
-    "instant-docs": "^4.0.0"
+    "instant-docs": "^4.1.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

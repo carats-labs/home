@@ -35,9 +35,9 @@ jobs:
 
       # Fix: GitHub Pages needs an index.html at the root of 'dist'
       # This redirects carats.dev -> carats.dev/en/latest/
-      - name: Create Redirect Root
-        run: |
-          echo '<meta http-equiv="refresh" content="0; url=./en/latest/">' > dist/index.html
+      # - name: Create Redirect Root
+      #   run: |
+      #     echo '<meta http-equiv="refresh" content="0; url=./en/latest/">' > dist/index.html
 
       - name: Upload Artifacts
         uses: actions/upload-pages-artifact@v3

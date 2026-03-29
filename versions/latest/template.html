@@ -1,43 +1,45 @@
 <!DOCTYPE html>
-<html lang="%lang%" x-version="%version%">
-  <head>
-    <meta charset="%encoding%" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="description" content="%meta_description%" />
-    <meta name="keywords" content="%meta_keywords%" />
-    <link rel="icon" href="/static/assets/favicon.svg">
-    <title>%meta_title%</title>
-    <!-- <link rel="stylesheet" href="/static/css/pure-min.css" /> -->
-    <link rel="stylesheet" href="/static/css/sidebar.css" />
-    <link rel="stylesheet" href="/static/css/base.css" />
-    <link rel="stylesheet" href="/static/css/instajax.css" />
-    <script type="text/javascript" src="/static/plugins/log-logo.js" ></script>
-    <script type="text/javascript" src="/static/plugins/instajax.js" ></script>
-  </head>
-  <body>
-    <div class="instajax-progress-bar loading"></div>
-    <div id="layout">
-      <aside id="menu">
-        <header>
-          %logo%
-          %nav%
-        </header>
-        <a href="#menu" id="menuLink" aria-label="%d%.toggle_menu">
-          <span></span>
-        </a>
-      </aside>
-      <main>
-        %header%
-        <article>
-          %search%
-          %generated_table_of_contents%
-          %content%
-        </article>
-      </main>
-      %footer%
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carats</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Mono:wght@300;400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/base.css">
+  <script type="text/javascript" src="/static/plugins/log-logo.js"></script>
+  <script type="text/javascript" src="/static/plugins/instajax.js"></script>
+  <script type="text/javascript" src="/static/plugins/copy-btn.js"></script>
+</head>
+
+<body>
+  <div class="page">
+    <div class="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-text">
+        <div class="eyebrow">%d%.eyebrow</div>
+        <h1><span class="shimmer-text">Carats</span></h1>
+        <p class="tagline">%d%.tagline1<br />%d%.tagline2</p>
+      </div>
+      <video autoplay muted loop src="/static/assets/diamond.mp4" id="diamond" width="380" height="auto"></video>
     </div>
-    <script src="/static/js/ui.js"></script>
-    <script type="module" src="/static/js/search.js" defer></script>
-  </body>
+
+    <div class="install-section">
+      <div class="install-label">%d%.install-label</div>
+      <bdi class="command-block" id="cmd" title="Click to copy">
+        <span class="prompt-char">$</span>
+        <span class="cmd-text">bun</span>
+        <span class="cmd-arg">create</span>
+        <span class="cmd-name">carats</span>
+        <button data-copy="bun create carats" data-copy-label="%d%.copy" data-copied-label="%d%.copied" class="copy-btn" id="copyBtn">%d%.copy</button>
+      </bdi>
+    </div>
+
+    <div class="footer-rule"><span class="footer-mark">◆ carats v1.0</span></div>
+  </div>
+</body>
+
 </html>
