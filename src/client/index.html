@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#07070a" />
+
+    <!--
+      Between the two crown markers the client can replace `head` on navigation.
+      Anything inside that span must be safe to discard and rebuild.
+    -->
+    <meta id="carats-crown-start" />
+    <!--app-head-->
+    <meta id="carats-crown-end" />
+  </head>
+  <body>
+    <div id="loading-indicator"></div>
+    <div id="app"><!--app-html--></div>
+    <script type="module" src="/entrypoint.ts"></script>
+  </body>
+</html>

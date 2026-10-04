@@ -1,0 +1,796 @@
+// The landing page.
+//
+// No `@use` of base.sass: the tokens are CSS custom properties, defined once in
+// base.sass and loaded by the entrypoint, so they are in scope here. Importing the
+// partial would emit a second copy of the whole reset into this file's output.
+// The only nesting below is CSS nesting, which needs no import.
+
+/* ------------------------------------------------------------------ layout
+
+   `.shell` is the reading column: fixed at --measure and centred. A large
+   display gets margins, not longer lines, so the measure per line stays
+   identical on every screen. */
+.shell
+  width: 100%
+  max-width: var(--measure)
+  margin: 0 auto
+  padding: 0 var(--gutter)
+
+.acts
+  display: flex
+  flex-direction: column
+
+.act
+  /* Tighter than the original's clamp(80px, 11vh, 152px), which put 198px
+     between one act and the next. Measured in viewport height so the gap keeps
+     its proportion to the screen rather than widening as the window does. */
+  padding-block: clamp(56px, 7vh, 96px)
+
+  .shell
+    display: flex
+    flex-direction: column
+
+/* The 1080p reference: a section heading at its cap, wrapping to at most two
+   comfortable lines rather than running the width of a wide column. The 22px
+   between kicker and heading lives on the kicker, as in the original, so the two
+   do not both add it. */
+.act h2
+  max-width: 18ch
+  margin-top: 0
+  font-size: var(--type-heading)
+
+.kicker
+  display: flex
+  align-items: center
+  gap: 12px
+  margin: 0 0 22px
+  color: var(--muted)
+  font-size: var(--type-label)
+  letter-spacing: 0.3em
+  text-transform: uppercase
+
+  &::before
+    content: ''
+    flex: 0 0 auto
+    width: 28px
+    height: 1px
+    background: var(--border)
+
+.lede
+  max-width: 52ch
+  margin-top: 22px
+  color: var(--muted)
+  font-size: var(--type-body)
+  line-height: 1.85
+
+.lede-wide
+  max-width: 68ch
+
+.note
+  max-width: 100ch
+  margin-top: 26px
+  padding-inline-start: 16px
+  border-inline-start: 1px solid var(--border)
+  color: var(--muted)
+  opacity: 0.78
+  font-size: var(--type-note)
+  line-height: 1.9
+  text-wrap: balance
+
+.method
+  max-width: 62ch
+  margin-top: 40px
+  color: var(--muted)
+  opacity: 0.6
+  font-size: 10.5px
+  line-height: 1.9
+
+/* ------------------------------------------------------------------- hero */
+
+/* The page is exactly as wide as the three parts of the hero put together, so
+   the hero keeps its proportions instead of being stretched to the viewport or
+   capped to the reading column. */
+.page
+  // the containing block for the language picker, which is a direct child of
+  // .page rather than of the hero's text column
+  position: relative
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  min-height: 100vh
+  padding: 0 var(--hero-gutter)
+
+.hero
+  display: grid
+  grid-template-columns: var(--hero-col-text) var(--hero-col-media)
+  align-items: center
+  gap: var(--hero-gap)
+  justify-content: center
+  width: 100%
+  max-width: calc(var(--hero-col-text) + var(--hero-gap) + var(--hero-col-media))
+  margin: 0 auto
+
+.hero-text
+  min-width: 0
+
+.eyebrow
+  display: flex
+  align-items: center
+  gap: 10px
+  margin-bottom: 16px
+  color: var(--muted)
+  font-size: 11px
+  letter-spacing: 0.25em
+  text-transform: uppercase
+
+  &::before
+    content: ''
+    width: 24px
+    height: 1px
+    background: var(--muted)
+
+h1
+  font-size: var(--type-display)
+  line-height: 0.9
+  letter-spacing: -0.02em
+
+.shimmer
+  background: linear-gradient(105deg, var(--text) 20%, var(--gem) 40%, var(--gold) 50%, var(--gem) 60%, var(--text) 80%)
+  background-size: 200% auto
+  background-clip: text
+  -webkit-background-clip: text
+  -webkit-text-fill-color: transparent
+  animation: shimmer 4s linear infinite
+
+@keyframes shimmer
+  from
+    background-position: 200% center
+
+  to
+    background-position: -200% center
+
+// The hero's entrance, taken from the published site rather than invented: a five
+// second fade on the video, and a short rise for the two text blocks with 0.2s
+// between them. Pure CSS, so it runs with JavaScript disabled and is undone
+// wholesale under prefers-reduced-motion.
+@keyframes fadeIn
+  to
+    opacity: 1
+
+@keyframes fadeUp
+  to
+    opacity: 1
+    transform: translateY(0)
+
+.hero-media
+  opacity: 0
+  animation: fadeIn 5s ease forwards 0.1s
+
+.hero-text, .action-row
+  opacity: 0
+  transform: translateY(24px)
+  animation: fadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards
+
+.action-row
+  animation-delay: 0.2s
+
+// Two sentences on two lines on a wide screen, one balanced paragraph on a
+// narrow one. Spans rather than a <br>, because removing a <br> with display
+// also removes the space, which ran the sentences together.
+.tagline
+  max-width: 54ch
+  margin-top: 24px
+  color: var(--muted)
+  font-size: 13px
+  letter-spacing: 0.05em
+  line-height: 1.7
+
+  span
+    display: block
+
+.hero-media
+  display: block
+  width: var(--hero-col-media)
+  height: 430px
+  mix-blend-mode: lighten
+
+/* --------------------------------------------------------- install command */
+
+.action-row
+  width: 100%
+  max-width: calc(var(--hero-col-text) + var(--hero-gap) + var(--hero-col-media))
+  margin: 48px auto 0
+
+.action-label
+  margin-bottom: 12px
+  color: var(--muted)
+  font-size: var(--type-label)
+  letter-spacing: 0.3em
+  text-transform: uppercase
+
+.action-body
+  display: flex
+  align-items: center
+  gap: 26px
+  flex-wrap: wrap
+
+.action-divider
+  width: 1px
+  align-self: stretch
+  background: var(--border)
+
+.command
+  position: relative
+  display: inline-flex
+  align-items: center
+  gap: 1ch
+  overflow: hidden
+  padding: 14px 20px
+  border: 1px solid var(--border)
+  border-radius: var(--radius)
+  background: var(--surface)
+  font-size: var(--type-body)
+  cursor: pointer
+  transition: border-color 0.3s
+
+  &:hover
+    border-color: rgba(168, 216, 255, 0.25)
+
+.prompt
+  color: var(--muted)
+  font-size: 12px
+  user-select: none
+
+.cmd-text
+  color: #c8f0d8
+
+.cmd-arg
+  color: var(--gem)
+
+.cmd-name
+  color: var(--gold)
+
+.copy
+  flex: 0 0 auto
+  margin-inline-start: 12px
+  padding: 5px 10px
+  border: 1px solid var(--border)
+  border-radius: 4px
+  background: none
+  color: var(--muted)
+  font-size: 12px
+  white-space: nowrap
+  transition: color 0.2s, border-color 0.2s
+
+  &:hover
+    border-color: var(--border-strong)
+    color: var(--text)
+
+  &.is-copied
+    border-color: rgba(168, 255, 204, 0.3)
+    color: var(--win)
+
+.action-link, .secondary-action
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  gap: 12px
+  border: 1px solid var(--border)
+  border-radius: var(--radius)
+  background: none
+  transition: border-color 0.3s, background-color 0.3s
+
+  &:hover
+    border-color: rgba(168, 216, 255, 0.35)
+    background: rgba(168, 216, 255, 0.04)
+
+/* Matches the install command's own type: 13px with the same tracking. At 15px
+   and no tracking it read as a different, louder control sitting next to the
+   command it is paired with. */
+.action-link
+  padding: 15px 22px
+  font-size: 13px
+  letter-spacing: 0.06em
+  white-space: nowrap
+  flex: 0 0 auto
+
+// A drawn arrow rather than a glyph, so it mirrors under RTL without a
+// second rule and never renders as a tofu box in a font that lacks it.
+.action-arrow
+  width: 22px
+  height: 1px
+  background: currentColor
+  position: relative
+  flex: 0 0 auto
+
+  &::after
+    content: ''
+    position: absolute
+    inset-block-start: 50%
+    inset-inline-end: 0
+    width: 7px
+    height: 7px
+    border-top: 1px solid currentColor
+    border-inline-end: 1px solid currentColor
+    transform: translateY(-50%) rotate(45deg)
+
+/* ---------------------------------------------------------- language menu */
+
+/* Out of the flow and anchored to the page, in the corner. It was previously a
+   child of the hero's text column, where absolute positioning resolved against
+   that column and dropped the control between the eyebrow and the wordmark. */
+.language-nav
+  position: absolute
+  top: clamp(20px, 3vh, 36px)
+  inset-inline-end: var(--hero-gutter)
+  // above .hero-media, which carries mix-blend-mode and creates a stacking
+  // context of its own
+  z-index: 10
+
+.language-toggle
+  display: inline-flex
+  align-items: center
+  gap: 8px
+  padding: 8px 12px
+  border: 1px solid var(--border)
+  border-radius: 999px
+  background: rgba(255, 255, 255, 0.02)
+  color: var(--muted)
+  font-size: 11px
+  letter-spacing: 0.08em
+  transition: border-color 0.2s, color 0.2s
+
+  &:hover
+    border-color: var(--border-strong)
+    color: var(--text)
+
+  img
+    width: 14px
+    height: 14px
+    opacity: 0.7
+
+.language-list
+  position: absolute
+  inset-inline-start: 0
+  top: calc(100% + 8px)
+  z-index: 20
+  min-width: 168px
+  margin: 0
+  padding: 6px
+  list-style: none
+  border: 1px solid var(--border)
+  border-radius: var(--radius)
+  background: var(--surface-raised)
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55)
+
+  &[hidden]
+    display: none
+
+  a
+    display: block
+    padding: 9px 12px
+    border-radius: 5px
+    color: var(--muted)
+    font-size: 13px
+    transition: background-color 0.15s, color 0.15s
+
+    &:hover
+      background: rgba(255, 255, 255, 0.05)
+      color: var(--text)
+
+  [aria-current='true']
+    color: var(--gold)
+    background: var(--gold-soft)
+
+/* ------------------------------------------------------- act 2: the receipt */
+
+.table-wrap
+  margin-top: 44px
+  overflow-x: auto
+
+.table
+  width: 100%
+  border-collapse: collapse
+  font-size: 13px
+
+  th, td
+    padding: 14px 12px
+    text-align: start
+    border-bottom: 1px solid var(--border)
+
+  thead th
+    color: var(--muted)
+    font-size: var(--type-label)
+    font-weight: 300
+    letter-spacing: 0.22em
+    text-transform: uppercase
+    white-space: nowrap
+
+  tbody th
+    color: var(--muted)
+    font-weight: 300
+    text-align: start
+
+  .numeric
+    text-align: end
+    font-variant-numeric: tabular-nums
+    white-space: nowrap
+
+  .is-carats
+    color: var(--text)
+    // the winning cell gets weight and a rule, not a colour change alone
+    box-shadow: inset 2px 0 0 var(--gold)
+
+  .margin
+    color: var(--gold)
+
+/* ---------------------------------------------------------- act 3: the chart */
+
+.chart
+  position: relative
+  margin: 40px 0 0
+
+.chart-unit, .chart-axis-title
+  display: block
+  margin-bottom: 9px
+  color: var(--muted)
+  opacity: 0.6
+  font-size: var(--type-label)
+  letter-spacing: 0.2em
+  text-transform: uppercase
+
+.chart-grid
+  position: absolute
+  inset-block: 0 0
+  inset-inline: 96px 0
+  display: grid
+  grid-template-columns: repeat(5, 1fr)
+  gap: 10px
+  pointer-events: none
+
+  span
+    border-left: 1px solid rgba(255, 255, 255, 0.04)
+
+.chart-rows
+  display: flex
+  flex-direction: column
+  gap: 26px
+
+.chart-row
+  display: grid
+  grid-template-columns: 96px 1fr
+  align-items: end
+
+.chart-name
+  padding-bottom: 2px
+  color: var(--muted)
+  font-size: 11px
+  letter-spacing: 0.16em
+  text-transform: uppercase
+
+.chart-track
+  display: grid
+  grid-template-columns: repeat(5, 1fr)
+  align-items: end
+  gap: 10px
+  height: 150px
+
+.chart-bar
+  position: relative
+  height: var(--w)
+  min-height: 2px
+  border: 1px solid rgba(150, 146, 176, 0.5)
+  background: linear-gradient(to top, rgba(150, 146, 176, 0.2), rgba(150, 146, 176, 0.44))
+  transform-origin: bottom
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)
+  transition-delay: var(--delay, 0ms)
+
+/* The Next.js row was drawn in a dark grey that disappeared against the page
+   background, so the chart showed one row instead of two — which defeats the
+   whole comparison. Lifted until both rows read at a glance, while staying
+   clearly subordinate to the Carats row. */
+.chart-row:not(.is-carats) .chart-bar
+  border-color: rgba(150, 146, 176, 0.55)
+  background: linear-gradient(to top, rgba(150, 146, 176, 0.22), rgba(150, 146, 176, 0.46))
+
+.is-carats .chart-bar
+  border-color: rgba(240, 216, 154, 0.5)
+  background: linear-gradient(to top, rgba(240, 216, 154, 0.16), rgba(240, 216, 154, 0.42))
+
+.chart-value
+  position: absolute
+  inset-block-end: calc(100% + 5px)
+  inset-inline-start: 0
+  color: var(--muted)
+  font-size: var(--type-label)
+  font-variant-numeric: tabular-nums
+  white-space: nowrap
+  opacity: 0
+  transition: opacity 0.4s var(--delay, 0ms)
+
+.chart-axis
+  margin-top: 18px
+
+// The axis title gets its own line: constrained to the name column it collides
+// with the first tick, because the labels are wider than that column.
+.chart-axis-title
+  margin-bottom: 9px
+
+.chart-ticks
+  display: grid
+  grid-template-columns: repeat(5, 1fr)
+  gap: 10px
+  // the same 96px offset as the bars, so ticks land under their bar
+  margin-inline-start: 96px
+
+  span
+    color: var(--muted)
+    font-size: var(--type-label)
+    text-align: center
+
+/* --------------------------------------------------------- act 4: the close */
+
+.close-shell
+  align-items: center
+  text-align: center
+
+/* Narrower than the shared .lede measure, and balanced: at 52ch centred this ran
+   to four lines and left "and the content." alone on the last one. */
+.close-lede
+  max-width: 44ch
+  margin-inline: auto
+  text-wrap: balance
+
+// Sized to its widest child rather than capped at a fixed width, so the two
+// controls share one measure in every locale and at every width. A hard 340px
+// was sized for the 1080p command row; from 2200px up the row's type grows about
+// 30% and the cap stayed put, which clipped the Turkish copy label while the
+// uncapped hero button simply grew.
+.close-pair
+  display: grid
+  grid-template-columns: minmax(0, auto)
+  justify-items: center
+  width: max-content
+  max-width: 100%
+
+  > *
+    min-width: 0
+
+/* The 34px the closing command needs below the paragraph. Without it the command
+   block butted straight up against the last line of the lede, which read as one
+   collided mass rather than a claim and its evidence. */
+.command-close
+  justify-content: space-between
+  margin-top: 34px
+
+.secondary-action
+  margin-top: 14px
+  padding: 15px 24px
+  // a long translation wraps rather than pushing the arrow out of the box
+  text-align: center
+  text-wrap: balance
+  font-size: 13px
+  letter-spacing: 0.06em
+
+/* ------------------------------------------------------------------ footer */
+
+.foot
+  width: 100%
+  max-width: var(--measure)
+  margin: 0 auto
+  padding: 0 var(--gutter) 72px
+
+.foot-rule
+  padding-top: 24px
+  border-top: 1px solid var(--border)
+
+.foot-mark
+  color: var(--muted)
+  font-size: 10px
+  letter-spacing: 0.2em
+  text-transform: uppercase
+
+/* ------------------------------------------------------------------ reveal
+
+   `.reveal` starts hidden only once behaviour.ts has confirmed it can reveal it,
+   so a failure degrades to a plain static page rather than a blank one. The class
+   itself is added by the script; the rule is written so that without it nothing
+   is hidden at all. */
+.reveal, .chart-bar, .chart-value, .table-wrap tbody tr
+  opacity: 1
+
+.js .reveal
+  opacity: 0
+  transform: translateY(18px)
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0ms), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0ms)
+
+.js .reveal.in-view
+  opacity: 1
+  transform: none
+
+.js .chart-bar
+  transform: scaleY(0)
+
+.js .chart.in-view .chart-bar
+  transform: scaleY(1)
+
+.js .chart-value
+  opacity: 0
+
+.js .chart.in-view .chart-value
+  opacity: 1
+
+.js .table-wrap tbody tr
+  transition: opacity 0.5s ease var(--delay, 0ms)
+
+.js .table-wrap.in-view tbody tr
+  opacity: 1
+
+@media (prefers-reduced-motion: reduce)
+  .js .reveal
+    opacity: 1
+    transform: none
+
+  .js .chart-bar, .js .chart-value
+    transition: none
+
+/* ------------------------------------------------------- large displays
+
+   Display type only. The reading column and every size above are untouched: a
+   4K panel gets a wider hero and a larger wordmark, not longer lines. */
+@media (min-width: 2200px)
+  h1
+    font-size: clamp(120px, 6vw, 190px)
+
+  .eyebrow
+    font-size: 12px
+    margin-bottom: 28px
+
+  .tagline
+    font-size: 17px
+
+  .action-label
+    font-size: 12px
+
+  .command
+    font-size: 17px
+    padding: 18px 26px
+
+  .prompt
+    font-size: 15px
+
+  .copy
+    font-size: 12px
+    padding: 6px 12px
+
+  .action-link
+    font-size: 13px
+    letter-spacing: 0.06em
+    padding: 18px 24px
+
+  /* ------------------------------------------------------- large displays
+
+   The hero's three parts grow together, so the video scales with the layout
+   instead of sitting small in the middle of a wide screen. Reading type and the
+   reading column are untouched: a large display gets a larger hero, not longer
+   lines. */
+@media (min-width: 2200px)
+  :root
+    --hero-col-text: 720px
+    --hero-col-media: 660px
+    --hero-gap: 90px
+
+  .hero-media
+    height: 720px
+
+  h1
+    font-size: clamp(120px, 6vw, 190px)
+
+  .eyebrow
+    font-size: 12px
+    margin-bottom: 28px
+
+  .tagline
+    font-size: 17px
+
+  .action-label
+    font-size: 12px
+
+  .command
+    font-size: 17px
+    padding: 18px 26px
+
+  .prompt
+    font-size: 15px
+
+  .copy
+    font-size: 12px
+    padding: 6px 12px
+
+  .action-link
+    font-size: 13px
+    letter-spacing: 0.06em
+    padding: 18px 24px
+
+  .language-toggle img
+    height: 20px
+
+  .foot-mark
+    font-size: 12px
+
+/* ----------------------------------------------------------------- narrower */
+
+@media (max-width: 940px)
+  .hero
+    grid-template-columns: minmax(0, 1fr)
+    justify-items: center
+    gap: 30px
+
+  /* The video keeps its aspect ratio and is bounded by the viewport, so on a
+     phone it shrinks proportionally instead of being squashed into a small box.
+     A hard-coded width here is what made the mobile hero look wrong. */
+  .hero-media
+    width: min(var(--hero-col-media), 78vw)
+    height: auto
+    max-height: 40vh
+
+  .action-row
+    max-width: 100%
+
+  .table
+    font-size: 12px
+
+    th, td
+      padding: 12px 8px
+
+  .table thead th
+    letter-spacing: 0.14em
+
+@media (max-width: 620px)
+  .action-body
+    flex-direction: column
+    align-items: stretch
+    gap: 16px
+
+  .action-divider
+    width: auto
+    height: 1px
+    align-self: stretch
+
+  .command
+    flex-wrap: wrap
+
+  .chart-row
+    grid-template-columns: 1fr
+    gap: 8px
+
+  .chart-grid
+    inset-inline: 0
+
+  .chart-ticks
+    margin-inline-start: 0
+    gap: 4px
+
+  .chart-axis
+    margin-top: 12px
+
+/* --------------------------------------------------------------- direction
+
+   The benchmark section is written with logical properties throughout
+   (`inset-inline`, `padding-inline`, `text-align: start/end`), so `dir="rtl"`
+   mirrors it without a single RTL override. These two are the exceptions, and
+   they are drawn shapes rather than text, so they mirror like a mirror. */
+[dir='rtl']
+  .counter-bar-fill
+    background: linear-gradient(270deg, var(--gold), var(--gem))
+
+  .action-arrow::after
+    transform: translateY(-50%) rotate(-135deg)
+
+  .action-arrow:hover
+    transform: translateX(-4px)
+
+[dir='ltr']
+  .action-arrow:hover
+    transform: translateX(4px)

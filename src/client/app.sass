@@ -1,0 +1,42 @@
+// Shell styles: the loading indicator and the in-flight frame.
+// No `@use` of base.sass — see the note at the top of landing.sass.
+
+// Shown by @carats/csr when a navigation takes longer than 250ms. Deliberately
+// near-invisible: it exists to explain a pause, not to become one.
+#loading-indicator
+  position: fixed
+  inset-block-start: 0
+  inset-inline: 0
+  z-index: 200
+  height: 1px
+  background: linear-gradient(90deg, transparent, var(--gold), transparent)
+  opacity: 0
+  transition: opacity 0.3s
+
+  &:not(.hide)
+    opacity: 1
+
+// The frame shown while a route's data is in flight. Reads as a held breath
+// rather than a spinner, and keeps the page from jumping when it arrives.
+.boot
+  display: grid
+  place-items: center
+  min-height: 60vh
+
+.boot-mark
+  color: var(--muted)
+  font-size: 12px
+  letter-spacing: 0.4em
+  animation: breathe 1.6s ease-in-out infinite
+
+@keyframes breathe
+  0%, 100%
+    opacity: 0.25
+
+  50%
+    opacity: 0.7
+
+@media (prefers-reduced-motion: reduce)
+  .boot-mark
+    animation: none
+    opacity: 0.5

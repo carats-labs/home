@@ -1,0 +1,81 @@
+// Tokens come from base.sass via the entrypoint; see the note in
+// landing.sass for why this does not import it.
+
+.notfound, .error
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  gap: 18px
+  min-height: 100svh
+  padding: var(--gutter)
+  text-align: center
+
+.kicker
+  display: flex
+  align-items: center
+  gap: 12px
+  color: var(--muted)
+  font-size: var(--type-label)
+  letter-spacing: 0.3em
+  text-transform: uppercase
+
+  &::before
+    content: ''
+    width: 28px
+    height: 1px
+    background: var(--border)
+
+h1
+  max-width: 20ch
+  font-size: var(--type-heading)
+
+.lede
+  max-width: 46ch
+  color: var(--muted)
+  font-size: var(--type-body)
+  line-height: 1.85
+
+.action
+  display: inline-flex
+  align-items: center
+  margin-top: 12px
+  padding: 15px 24px
+  border: 1px solid var(--border)
+  border-radius: var(--radius)
+  font-size: 13px
+  letter-spacing: 0.06em
+  transition: border-color 0.3s, background-color 0.3s
+
+  &:hover
+    border-color: rgba(168, 216, 255, 0.35)
+    background: rgba(168, 216, 255, 0.04)
+
+.locales
+  display: flex
+  gap: 18px
+  margin-top: 24px
+  padding-top: 24px
+  border-top: 1px solid var(--border)
+  font-size: 11px
+  letter-spacing: 0.18em
+
+  a
+    color: var(--muted)
+    transition: color 0.2s
+
+    &:hover
+      color: var(--gold)
+
+.message
+  max-width: 60ch
+  margin: 0
+  padding: 14px 18px
+  overflow-x: auto
+  border: 1px solid var(--border)
+  border-radius: var(--radius)
+  background: var(--surface)
+  color: var(--muted)
+  font-size: 12px
+  text-align: start
+  white-space: pre-wrap
