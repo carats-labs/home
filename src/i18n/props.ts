@@ -5,7 +5,7 @@
  * `src/client` imports a locale, so switching language cannot leave one string
  * behind in a client bundle and there is no client-side dictionary to download.
  */
-import { comparisonRows, facts } from '../benchmark/facts';
+import { comparisonRows, chartMax, facts, type ComparisonRow } from '../benchmark/facts';
 import { ar, en, fill, tr, type ResolvedSheet, type Sheet, type SheetPlaceholders } from './sheet';
 import { DEFAULT_LOCALE, dirOf, negotiateLocale, resolveLocale, type Locale } from './locales';
 
@@ -26,10 +26,64 @@ const FORMATTERS: Readonly<Record<Locale, (n: number) => string>> = {
 
 const group = (locale: Locale) => (n: number): string => FORMATTERS[locale](n);
 
+/**
+ * The measurement date, written the way the language writes dates.
+ *
+ * A raw ISO string reached three sheets and read as machine output on all of
+ * them. Formatting it here means the copy can say "Recorded", "Ölçüm tarihi" or
+ * "تاريخ القياس" and each gets a date its own readers recognise.
+ *
+ * `timeZone: 'UTC'` is not optional. `new Date('2026-09-29')` is midnight UTC, and
+ * `Intl.DateTimeFormat` defaults to the *local* zone — so anywhere west of
+ * Greenwich the date rendered as the 28th. Pinning the zone is what makes the
+ * figure on the page the figure in the benchmark.
+ *
+ * `ar` is pinned to Latin digits, matching the figures in the table above it.
+ */
+const DATE_FORMAT: Readonly<Record<Locale, Intl.DateTimeFormatOptions>> = {
+  en: { dateStyle: 'long', timeZone: 'UTC' },
+  tr: { dateStyle: 'long', timeZone: 'UTC' },
+  ar: { dateStyle: 'long', timeZone: 'UTC', numberingSystem: 'latn' },
+};
+
+const DATES: Readonly<Record<Locale, (iso: string) => string>> = {
+  en: (iso) => new Intl.DateTimeFormat('en-GB', DATE_FORMAT.en).format(new Date(iso)),
+  tr: (iso) => new Intl.DateTimeFormat('tr-TR', DATE_FORMAT.tr).format(new Date(iso)),
+  ar: (iso) => new Intl.DateTimeFormat('ar', DATE_FORMAT.ar).format(new Date(iso)),
+};
+
+/**
+ * Unit labels, per language.
+ *
+ * `rps` is the English abbreviation and means nothing to a Turkish or Arabic
+ * reader, so the table says `istek/sn` and `طلب/ث` there — matching the chart
+ * above it, which already speaks in requests per second.
+ */
+const UNITS: Readonly<Record<Locale, Readonly<Record<ComparisonRow['unit'], string>>>> = {
+  en: { B: 'B', MB: 'MB', ms: 'ms', rps: 'rps', '': '' },
+  tr: { B: 'B', MB: 'MB', ms: 'ms', rps: 'istek/sn', '': '' },
+  ar: { B: 'B', MB: 'MB', ms: 'ms', rps: 'طلب/ث', '': '' },
+};
+
+/**
+ * The advantage column, written the way the language writes decimals.
+ *
+ * Turkish separates the decimal part with a comma, so `1.4` must render as `1,4`
+ * beside a table that writes `1,81 MB` — a table with both separators is a table
+ * nobody trusts.
+ */
+function formatMargin(ratio: number, locale: Locale): string {
+  const value = ratio >= 10 ? Math.round(ratio) : Math.round(ratio * 10) / 10;
+  return value.toLocaleString(locale, { maximumFractionDigits: 1 });
+}
+
 /** The placeholder values for a locale: figures, formatted for that locale. */
 export function placeholders(locale: Locale): SheetPlaceholders {
   const n = group(locale);
   return {
+    // the chart's scale, so the screen-reader note quotes the same grouped
+    // figure the bars beside it are drawn against
+    max: n(chartMax),
     caratsPeak: n(facts.load.caratsPeak),
     nextjsPeak: n(facts.load.nextjsPeak),
     nextjsPlateau: String(facts.load.nextjsPlateauPct),
@@ -38,7 +92,7 @@ export function placeholders(locale: Locale): SheetPlaceholders {
     node: facts.methodology.node,
     sequential: n(facts.methodology.sequentialRequests),
     perLevel: n(facts.methodology.requestsPerLevel),
-    recordedOn: facts.methodology.recordedOn,
+    recordedOn: DATES[locale](facts.methodology.recordedOn),
   };
 }
 
@@ -60,29 +114,31 @@ export interface LocalisedRow {
   readonly label: string;
   readonly carats: string;
   readonly nextjs: string;
-  /** Carats' advantage, as a multiplier. Above 10 it is rounded to a whole number. */
-  readonly ratio: number;
+  /** Carats' advantage, already formatted for the locale, e.g. `45` or `1,4`. */
+  readonly margin: string;
 }
 
 /**
  * The comparison table, ordered by advantage, formatted and labelled in the
  * page's language.
  *
- * Numbers are grouped with the locale's own separator here, at the last moment
- * before they reach the page. Doing it earlier — while building the rows — gave
- * every language `3828 B`, with no separator at all.
+ * Numbers, units and the advantage column are all formatted here, at the last
+ * moment before they reach the page. Doing it earlier — while building the rows —
+ * gave every language `3828 B` with no separator, and `1.4` with a full stop in a
+ * table that writes `1,81 MB` with a comma.
  */
 export function localisedRows(sheet: ResolvedSheet, locale: Locale): readonly LocalisedRow[] {
   const n = group(locale);
+  const units = UNITS[locale];
 
   return comparisonRows().map((row) => {
-    const unit = row.unit === '' ? '' : ` ${row.unit}`;
+    const unit = row.unit === '' ? '' : ` ${units[row.unit]}`;
     return {
       id: row.id,
       label: sheet.rowLabels[row.id],
       carats: `${n(row.caratsValue)}${unit}`,
       nextjs: `${n(row.nextjsValue)}${unit}`,
-      ratio: row.ratio,
+      margin: formatMargin(row.ratio, locale),
     };
   });
 }

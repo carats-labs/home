@@ -6,10 +6,9 @@
 // The only nesting below is CSS nesting, which needs no import.
 
 /* ------------------------------------------------------------------ layout
-
-   `.shell` is the reading column: fixed at --measure and centred. A large
-   display gets margins, not longer lines, so the measure per line stays
-   identical on every screen. */
+ `.shell` is the reading column: fixed at --measure and centred. A large
+ display gets margins, not longer lines, so the measure per line stays
+ identical on every screen. */
 .shell
   width: 100%
   max-width: var(--measure)
@@ -22,8 +21,8 @@
 
 .act
   /* Tighter than the original's clamp(80px, 11vh, 152px), which put 198px
-     between one act and the next. Measured in viewport height so the gap keeps
-     its proportion to the screen rather than widening as the window does. */
+   between one act and the next. Measured in viewport height so the gap keeps
+   its proportion to the screen rather than widening as the window does. */
   padding-block: clamp(56px, 7vh, 96px)
 
   .shell
@@ -31,9 +30,9 @@
     flex-direction: column
 
 /* The 1080p reference: a section heading at its cap, wrapping to at most two
-   comfortable lines rather than running the width of a wide column. The 22px
-   between kicker and heading lives on the kicker, as in the original, so the two
-   do not both add it. */
+ comfortable lines rather than running the width of a wide column. The 22px
+ between kicker and heading lives on the kicker, as in the original, so the two
+ do not both add it. */
 .act h2
   max-width: 18ch
   margin-top: 0
@@ -56,15 +55,20 @@
     height: 1px
     background: var(--border)
 
+/* A share of the reading column, so the measure reads as a proportion of the
+ page rather than a number that has to be guessed. 52ch here and 68ch on the
+ wide variant meant the same sentence set to a different width depending on
+ which act it appeared in. */
 .lede
-  max-width: 52ch
+  max-width: var(--measure-lede)
   margin-top: 22px
   color: var(--muted)
   font-size: var(--type-body)
   line-height: 1.85
 
-.lede-wide
-  max-width: 68ch
+/* Every act lede takes the same measure. The old `.lede-wide` existed only to
+ override `.lede` with a second, larger character count, which meant the same
+ sentence set to a different width depending on which act it landed in. */
 
 .note
   max-width: 100ch
@@ -88,8 +92,8 @@
 /* ------------------------------------------------------------------- hero */
 
 /* The page is exactly as wide as the three parts of the hero put together, so
-   the hero keeps its proportions instead of being stretched to the viewport or
-   capped to the reading column. */
+ the hero keeps its proportions instead of being stretched to the viewport or
+ capped to the reading column. */
 .page
   // the containing block for the language picker, which is a direct child of
   // .page rather than of the hero's text column
@@ -129,6 +133,12 @@
     width: 24px
     height: 1px
     background: var(--muted)
+    // Pinned to the first line rather than centred on the flex line. The eyebrow
+    // wraps to two lines on a phone now that it yields to the language toggle,
+    // and a centred rule then floats beside the gap between them instead of
+    // beside the words. `em` so it tracks the font-size across breakpoints.
+    align-self: flex-start
+    margin-top: 0.62em
 
 h1
   font-size: var(--type-display)
@@ -286,8 +296,8 @@ h1
     background: rgba(168, 216, 255, 0.04)
 
 /* Matches the install command's own type: 13px with the same tracking. At 15px
-   and no tracking it read as a different, louder control sitting next to the
-   command it is paired with. */
+ and no tracking it read as a different, louder control sitting next to the
+ command it is paired with. */
 .action-link
   padding: 15px 22px
   font-size: 13px
@@ -318,8 +328,8 @@ h1
 /* ---------------------------------------------------------- language menu */
 
 /* Out of the flow and anchored to the page, in the corner. It was previously a
-   child of the hero's text column, where absolute positioning resolved against
-   that column and dropped the control between the eyebrow and the wordmark. */
+ child of the hero's text column, where absolute positioning resolved against
+ that column and dropped the control between the eyebrow and the wordmark. */
 .language-nav
   position: absolute
   top: clamp(20px, 3vh, 36px)
@@ -352,10 +362,15 @@ h1
 
 .language-list
   position: absolute
-  inset-inline-start: 0
+  /* Aligned to the toggle's *end* edge, so the panel opens inward — toward the
+   page centre — instead of outward. The control is pinned to the corner, so
+   `inset-inline-start: 0` pushed the panel off-screen: at 390px the toggle
+   starts at x=258 and a 168px panel reached x=426, 36px past the viewport. */
+  inset-inline-end: 0
   top: calc(100% + 8px)
   z-index: 20
   min-width: 168px
+  max-width: calc(100vw - var(--hero-gutter) * 2)
   margin: 0
   padding: 6px
   list-style: none
@@ -388,6 +403,21 @@ h1
 .table-wrap
   margin-top: 44px
   overflow-x: auto
+  // a flex item defaults to `min-width: auto`, which lets a wide table stretch
+  // its parent instead of scrolling inside it
+  min-width: 0
+  // Below roughly 380px the three figure columns alone need more width than the
+  // screen has, and the alternatives are 10px numerals or a broken table. So it
+  // scrolls, and says so: two shadow layers are pinned to the viewport
+  // (`scroll`) while two opaque gradients ride the content (`local`) and cover
+  // them at each end. No scroll listener, no state, no class toggling.
+  // Written as one line per property because indented .sass mis-parses a
+  // comma-separated list split across lines.
+  background-image: linear-gradient(to right, var(--bg) 40%, rgba(0,0,0,0)), linear-gradient(to left, var(--bg) 40%, rgba(0,0,0,0)), linear-gradient(to left, rgba(0,0,0,0.35), rgba(0,0,0,0)), linear-gradient(to right, rgba(0,0,0,0.35), rgba(0,0,0,0))
+  background-position: left center, right center, right center, left center
+  background-repeat: no-repeat
+  background-size: 30px 100%, 30px 100%, 14px 100%, 14px 100%
+  background-attachment: local, local, scroll, scroll
 
 .table
   width: 100%
@@ -487,9 +517,9 @@ h1
   transition-delay: var(--delay, 0ms)
 
 /* The Next.js row was drawn in a dark grey that disappeared against the page
-   background, so the chart showed one row instead of two — which defeats the
-   whole comparison. Lifted until both rows read at a glance, while staying
-   clearly subordinate to the Carats row. */
+ background, so the chart showed one row instead of two — which defeats the
+ whole comparison. Lifted until both rows read at a glance, while staying
+ clearly subordinate to the Carats row. */
 .chart-row:not(.is-carats) .chart-bar
   border-color: rgba(150, 146, 176, 0.55)
   background: linear-gradient(to top, rgba(150, 146, 176, 0.22), rgba(150, 146, 176, 0.46))
@@ -535,10 +565,18 @@ h1
   align-items: center
   text-align: center
 
-/* Narrower than the shared .lede measure, and balanced: at 52ch centred this ran
-   to four lines and left "and the content." alone on the last one. */
+/* Wider than the act headings' cap, so the closing line holds on one line in
+ every language. Turkish "Yalnızca fazlalığı kestik." is longer than English
+ "We cut only the excess." and broke to two lines at 18ch, which made the same
+ heading a different shape in different languages. */
+.close-shell h2
+  max-width: 26ch
+
+/* The closing paragraph. Wider than the act measure, because it is centred and
+ sits alone: at 44ch it ran to five short lines in a 1400px column, a quarter
+ of the page wide. Balanced, so the last line is not left holding one word. */
 .close-lede
-  max-width: 44ch
+  max-width: var(--measure-close)
   margin-inline: auto
   text-wrap: balance
 
@@ -558,8 +596,8 @@ h1
     min-width: 0
 
 /* The 34px the closing command needs below the paragraph. Without it the command
-   block butted straight up against the last line of the lede, which read as one
-   collided mass rather than a claim and its evidence. */
+ block butted straight up against the last line of the lede, which read as one
+ collided mass rather than a claim and its evidence. */
 .command-close
   justify-content: space-between
   margin-top: 34px
@@ -592,11 +630,10 @@ h1
   text-transform: uppercase
 
 /* ------------------------------------------------------------------ reveal
-
-   `.reveal` starts hidden only once behaviour.ts has confirmed it can reveal it,
-   so a failure degrades to a plain static page rather than a blank one. The class
-   itself is added by the script; the rule is written so that without it nothing
-   is hidden at all. */
+ `.reveal` starts hidden only once behaviour.ts has confirmed it can reveal it,
+ so a failure degrades to a plain static page rather than a blank one. The class
+ itself is added by the script; the rule is written so that without it nothing
+ is hidden at all. */
 .reveal, .chart-bar, .chart-value, .table-wrap tbody tr
   opacity: 1
 
@@ -636,9 +673,8 @@ h1
     transition: none
 
 /* ------------------------------------------------------- large displays
-
-   Display type only. The reading column and every size above are untouched: a
-   4K panel gets a wider hero and a larger wordmark, not longer lines. */
+ Display type only. The reading column and every size above are untouched: a
+ 4K panel gets a wider hero and a larger wordmark, not longer lines. */
 @media (min-width: 2200px)
   h1
     font-size: clamp(120px, 6vw, 190px)
@@ -670,7 +706,6 @@ h1
     padding: 18px 24px
 
   /* ------------------------------------------------------- large displays
-
    The hero's three parts grow together, so the video scales with the layout
    instead of sitting small in the middle of a wide screen. Reading type and the
    reading column are untouched: a large display gets a larger hero, not longer
@@ -728,8 +763,8 @@ h1
     gap: 30px
 
   /* The video keeps its aspect ratio and is bounded by the viewport, so on a
-     phone it shrinks proportionally instead of being squashed into a small box.
-     A hard-coded width here is what made the mobile hero look wrong. */
+   phone it shrinks proportionally instead of being squashed into a small box.
+   A hard-coded width here is what made the mobile hero look wrong. */
   .hero-media
     width: min(var(--hero-col-media), 78vw)
     height: auto
@@ -748,6 +783,57 @@ h1
     letter-spacing: 0.14em
 
 @media (max-width: 620px)
+  /* The language toggle is out of flow in the inline-end corner, so on a phone
+   the letter-spaced eyebrow ran underneath it — in English its tail finished
+   22px behind the toggle, and a longer translation would have run further
+   under. Reserving the toggle's own footprint keeps the two apart whatever
+   the locale says, and mirrors for free because `.language-nav` is anchored
+   with `inset-inline-end`. */
+  .eyebrow
+    padding-inline-end: 112px
+
+  .table
+    font-size: 11px
+
+    th, td
+      // Turkish writes `111,31 MB` and `173.344 B`, and its peak-throughput row
+      // reads `4.256 istek/sn` — the decimal comma, the grouping dot and a long
+      // unit together make its figure columns wider than the phone. Uniform 3px
+      // padding bought the width but left adjacent figures touching, so `4.256
+      // istek/sn` and `2.442 istek/sn` read as one number. The padding is worth
+      // more between columns than at the edges, so it moves there: the outer
+      // padding is dropped and the inner gap doubles, which is both wider-looking
+      // and about the same total width.
+      padding: 10px 5px
+
+      &:first-child
+        padding-inline-start: 0
+
+      &:last-child
+        padding-inline-end: 0
+
+  /* The column headers were the reason this table overflowed, and only in
+   Turkish. They are uppercase, `white-space: nowrap`, and letter-spaced, so
+   `Carats farkı` and `Next.js` set a floor of ~100px each — 393px of header
+   inside a 342px column on a phone. Letting them wrap hands the width to the
+   numeric cells, which are the columns that should be sizing themselves.
+   The selector has to be `.table thead .numeric`, not `.table thead th`: the
+   data-column headers carry `.numeric` too, and `.table .numeric` is the more
+   specific rule, so the looser one silently lost. */
+  .table thead th, .table thead .numeric
+    letter-spacing: 0.08em
+    white-space: normal
+    hyphens: auto
+
+  .table .numeric
+    font-size: 11px
+    // The unit drops to its own line rather than being pushed sideways. Turkish's
+    // peak-throughput row is `4.256 istek/sn` against `2.442 istek/sn`, and with
+    // both units inline the two columns met — the pair read as one number. The
+    // break happens at the space, so the figures and their units stay intact and
+    // the widest line in the column becomes `istek/sn` instead of `4.256 istek/sn`.
+    white-space: normal
+
   .action-body
     flex-direction: column
     align-items: stretch
@@ -776,11 +862,10 @@ h1
     margin-top: 12px
 
 /* --------------------------------------------------------------- direction
-
-   The benchmark section is written with logical properties throughout
-   (`inset-inline`, `padding-inline`, `text-align: start/end`), so `dir="rtl"`
-   mirrors it without a single RTL override. These two are the exceptions, and
-   they are drawn shapes rather than text, so they mirror like a mirror. */
+ The benchmark section is written with logical properties throughout
+ (`inset-inline`, `padding-inline`, `text-align: start/end`), so `dir="rtl"`
+ mirrors it without a single RTL override. These two are the exceptions, and
+ they are drawn shapes rather than text, so they mirror like a mirror. */
 [dir='rtl']
   .counter-bar-fill
     background: linear-gradient(270deg, var(--gold), var(--gem))

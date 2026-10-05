@@ -13,9 +13,13 @@
     "preview": "cross-env NODE_ENV=production bun dist/app.js",
     "test": "vitest --run --coverage",
     "typecheck": "tsc --noEmit",
-    "check": "bun typecheck && bun check:sass",
+    "check": "bun typecheck && bun check:sass && bun check:tokens",
     "check:sass": "node scripts/check-sass.mjs",
+    "check:tokens": "bun scripts/check-token-parity.mjs",
+    "check:tokens:selftest": "bun scripts/check-token-parity-self-test.mjs",
+    "check:copy": "node scripts/check-locale-copy.mjs",
     "check:routes": "node scripts/probe-routes.mjs",
+    "check:render": "node scripts/inspect-page.mjs",
     "check:weight": "node scripts/measure-weight.mjs"
   },
   "dependencies": {

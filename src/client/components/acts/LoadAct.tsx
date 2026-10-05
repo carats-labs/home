@@ -1,4 +1,4 @@
-import { facts, barWidth, chartMax } from '../../../benchmark/facts';
+import { facts, barWidth } from '../../../benchmark/facts';
 import type { PageContent } from '../../../i18n/props';
 
 interface SeriesProps {
@@ -93,7 +93,10 @@ export default function LoadAct({ props }: { props: PageContent }) {
         <p class="note reveal">{sheet.loadNote}</p>
       </div>
 
-      <p class="sr-only">{`Bars are scaled to a maximum of ${chartMax} requests per second.`}</p>
+      {/* Translated, and carrying the locale's own digit grouping. This line was
+          previously a template literal in the component, so it stayed English on
+          the Turkish and Arabic pages. */}
+      <p class="sr-only">{sheet.chartScaleNote}</p>
     </section>
   );
 }

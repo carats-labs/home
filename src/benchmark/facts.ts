@@ -305,9 +305,10 @@ const rows: readonly ComparisonRow[] = ([
   .map(([id, caratsValue, nextjsValue, unit, ratio]) => ({ id, caratsValue, nextjsValue, unit, ratio }))
   .sort((a, b) => b.ratio - a.ratio);
 
-/** How a ratio is written in the table: whole numbers above ten, else one decimal. */
-export const formatRatio = (ratio: number): string =>
-  ratio >= 10 ? String(Math.round(ratio)) : String(Math.round(ratio * 10) / 10);
+/* How a ratio is written in the table — whole numbers above ten, otherwise one
+   decimal — is a question about the reader's language, not about the measurement:
+   Turkish separates the decimal part with a comma. It therefore lives with the
+   rest of the locale formatting in `i18n/props.ts`, not here. */
 
-/** The comparison table, ordered by advantage. */
+/** The comparison table, ordered by advantage. Values are unformatted. */
 export const comparisonRows = (): readonly ComparisonRow[] => rows;

@@ -1,4 +1,3 @@
-import { formatRatio } from '../../../benchmark/facts';
 import type { PageContent } from '../../../i18n/props';
 
 /**
@@ -46,7 +45,7 @@ export default function ReceiptAct({ props }: { props: PageContent }) {
                   <th scope="row">{row.label}</th>
                   <td class="numeric is-carats">{row.carats}</td>
                   <td class="numeric">{row.nextjs}</td>
-                  <td class="numeric margin">{formatRatio(row.ratio)}&times;</td>
+                  <td class="numeric margin">{row.margin}&times;</td>
                 </tr>
               ))}
             </tbody>

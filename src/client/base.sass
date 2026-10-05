@@ -38,6 +38,16 @@
   /* The reading column. Fixed so the measure per line is identical everywhere. */
   --measure: 1400px
   --gutter: clamp(24px, 4vw, 56px)
+
+  /* Reading measures.
+
+   Expressed as `min(100%, Npx)` rather than a percentage of the column. A bare
+   percentage is fine on a wide screen and collapses on a phone: 42% of a 1400px
+   column is 541px, and 42% of a 342px one is 144px, which chopped the closing
+   paragraph into unreadable stubs. The cap is what the reader actually gets on a
+   large display; the `100%` is what they get on a phone. */
+  --measure-lede: min(100%, 670px)
+  --measure-close: min(100%, 620px)
   /* The hero is sized by its own three parts rather than by the reading column:
      a fixed text column, a fixed media column, and the gap between them. The
      page is then exactly as wide as the sum, so the hero keeps its proportions
