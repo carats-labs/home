@@ -53,6 +53,11 @@
   "closeLede": "يُنشئ Carats الصفحة على الخادم ويرسلها كما هي. لا حزمة عميل تتضخم، ولا hydration يُنتظر، ولا جافاسكريبت يقف بين الزائر والمحتوى.",
   "closeAction": "اطّلع على الوثائق",
 
+  "notFoundKicker": "غير موجود",
+  "notFoundHeading": "هذه الصفحة غير موجودة.",
+  "notFoundLede": "قد يكون العنوان مكتوبًا بشكل خاطئ، أو ربما نُقلت الصفحة.",
+  "notFoundAction": "اقرأ التوثيق",
+
   "languageMenuLabel": "غيّر اللغة",
   "footerMark": "◆ carats v1.0"
 }

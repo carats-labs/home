@@ -1,35 +1,17 @@
 import { beforeMount } from '@carats/hooks';
 import type { CaratsComponent } from '@carats/render';
-import { LOCALES, LOCALE_NAMES, DEFAULT_LOCALE, direction, dictionary, localePath, type Locale } from '../../../i18n/locales';
+import {
+  LOCALES,
+  LOCALE_NAMES,
+  DEFAULT_LOCALE,
+  direction,
+  dictionary,
+  localePath,
+  type CopyKey,
+  type Locale,
+} from '../../../i18n/locales';
+import { copyFor } from '../../../i18n/props';
 import './notfound.sass';
-
-interface Copy {
-  readonly kicker: string;
-  readonly heading: string;
-  readonly lede: string;
-  readonly action: string;
-}
-
-const COPY: Readonly<Record<Locale, Copy>> = {
-  en: {
-    kicker: 'Not found',
-    heading: 'This page does not exist.',
-    lede: 'The address may be mistyped, or the page may have moved.',
-    action: 'Read the documentation',
-  },
-  tr: {
-    kicker: 'Bulunamadı',
-    heading: 'Bu sayfa mevcut değil.',
-    lede: 'Adres yanlış yazılmış olabilir ya da sayfa taşınmış olabilir.',
-    action: 'Dokümantasyonu okuyun',
-  },
-  ar: {
-    kicker: 'غير موجود',
-    heading: 'هذه الصفحة غير موجودة.',
-    lede: 'قد يكون العنوان مكتوبًا بشكل خاطئ، أو ربما نُقلت الصفحة.',
-    action: 'اقرأ التوثيق',
-  },
-};
 
 const asLocale = (value: string | undefined): Locale | null =>
   value !== undefined && (LOCALES as readonly string[]).includes(value) ? (value as Locale) : null;
@@ -37,9 +19,12 @@ const asLocale = (value: string | undefined): Locale | null =>
 /**
  * Resolves a URL segment to a locale, or the default when it names none we have.
  *
- * `/de` has no dictionary, so there is nothing to write that page's copy in beyond
- * the default — which is the honest answer for a 404, and the reason the not-found
- * copy is a separate table from the dictionaries rather than a key inside them.
+ * `/de` has no dictionary, so it is answered in the default language. That is the
+ * honest answer — the reader asked for a language the site does not have, and
+ * showing them English rather than an empty page is more use than nothing. It is
+ * also the *only* awkward part of putting this copy in the dictionaries, and it does
+ * not justify a second copy table: this page already loads a dictionary, for the
+ * reading direction, so the strings were one property read away.
  */
 export const localeOf = (lang: string | undefined): Locale => asLocale(lang) ?? DEFAULT_LOCALE;
 
@@ -49,21 +34,22 @@ export const localeOf = (lang: string | undefined): Locale => asLocale(lang) ?? 
  * A plain component with no `this`: Carats calls a nested component as
  * `type(props)`, with no receiver, so `this.head` inside one throws and turns a
  * 404 into a 500. Anything that needs the head slot has to be a route.
+ *
+ * Takes the resolved copy rather than a locale, so it holds no lookup of its own
+ * and the same body serves any locale the dictionaries carry.
  */
-export function NotFoundBody({ locale }: { locale: Locale }) {
-  const copy = COPY[locale];
-
+export function NotFoundBody({ copy }: { copy: Readonly<Record<CopyKey, string>> }) {
   return (
     <div class="notfound">
-      <p class="kicker">{copy.kicker}</p>
-      <h1>{copy.heading}</h1>
-      <p class="lede">{copy.lede}</p>
+      <p class="kicker">{copy.notFoundKicker}</p>
+      <h1>{copy.notFoundHeading}</h1>
+      <p class="lede">{copy.notFoundLede}</p>
 
       <a class="action" href="https://docs.carats.dev">
-        {copy.action}
+        {copy.notFoundAction}
       </a>
 
-      <nav class="locales" aria-label={copy.kicker}>
+      <nav class="locales" aria-label={copy.notFoundKicker}>
         {LOCALES.map((code) => (
           <a href={localePath(code)} hreflang={code} lang={code}>
             {LOCALE_NAMES[code]}
@@ -79,34 +65,31 @@ export function NotFoundBody({ locale }: { locale: Locale }) {
  *
  * Registered for `/:lang/:slug` and for anything no route matches, so it must
  * render on the server for every dead URL. It therefore takes the language from
- * its props — which the culet supplies as the raw segment — and never reads the
- * document, which does not exist there.
+ * its props — which the route's params supply as the raw segment — and never reads
+ * the document, which does not exist there.
  */
-NotFound.status = 404;
 export default async function NotFound(this: CaratsComponent, props?: { lang?: string }) {
   const locale = localeOf(props?.lang);
-  const copy = COPY[locale];
-  this.status = 404;
 
-  // Async for the dictionary, and only for `__dir`: the page's own copy is the COPY
-  // table above, so this is one small fetch to learn which way the page reads. The
-  // alternative is a second list of RTL locales beside the dictionaries, and two
-  // lists cannot be checked against each other.
-  const dir = direction(await dictionary(locale));
+  // The dictionary, for the page's copy and its reading direction. Both come from
+  // the same fetch, and the copy is `{token}`-substituted like every other page, so
+  // a string on a 404 is subject to the same parity checks as the landing page.
+  const dict = await dictionary(locale);
+  const copy = copyFor(dict);
 
   beforeMount(() => {
     document.documentElement.lang = locale;
-    document.documentElement.dir = dir;
+    document.documentElement.dir = direction(dict);
   });
 
+  this.status = 404;
   this.head = (
     <>
-      <title>{`${copy.kicker} — Carats`}</title>
+      <title>{`${copy.notFoundKicker} — Carats`}</title>
       {/* A page that does not exist should not be indexed as if it were content. */}
       <meta name="robots" content="noindex" />
     </>
   );
 
-  return <NotFoundBody locale={locale} />;
+  return <NotFoundBody copy={copy} />;
 }
-

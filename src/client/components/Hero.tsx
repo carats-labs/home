@@ -33,12 +33,13 @@ function CopyButton({ label, copied }: CopyProps) {
  * also hover-only, so it was unreachable on touch.
  *
  * The links are plain same-origin anchors, so Carats' own in-app routing picks them
- * up and the page re-renders in the new locale. No client-side dictionary fetch, no
- * partial DOM morph to undo.
+ * up and the page re-renders in the new locale, fetching that locale's dictionary.
+ * No partial DOM morph to undo.
  *
- * Each label is a locale's own endonym, read from its dictionary — a picker must
- * never translate a language into itself, and `__name` exists so that stays true in
- * every locale rather than in one lookup table.
+ * Each label is a locale's own endonym — a picker must never translate a language
+ * into itself. They come from `LOCALE_NAMES` rather than from the dictionaries,
+ * because the picker lists every language at once and a dictionary per language has
+ * not been loaded at that point.
  */
 function LanguageMenu({ locale, label }: { locale: PageContent['locale']; label: string }) {
   return (

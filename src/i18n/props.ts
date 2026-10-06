@@ -177,21 +177,35 @@ export interface PageContent {
 /** Assembles the content for one locale, fetching its dictionary. */
 export async function pageContent(locale: Locale): Promise<PageContent> {
   const dict = await dictionary(locale);
-  const number = new Intl.NumberFormat(dict.__numberLocale);
 
   return {
     locale,
     dir: direction(dict),
-    copy: resolveCopy(dict, tokensFor(dict)),
+    copy: copyFor(dict),
     rows: localisedRows(dict),
     figures: {
       sweep: facts.methodology.levels.map((level, i) => ({
         level,
-        carats: number.format(facts.sweep.carats[i]),
-        nextjs: number.format(facts.sweep.nextjs[i]),
+        carats: new Intl.NumberFormat(dict.__numberLocale).format(facts.sweep.carats[i]),
+        nextjs: new Intl.NumberFormat(dict.__numberLocale).format(facts.sweep.nextjs[i]),
       })),
     },
   };
+}
+
+/**
+ * A dictionary's copy, with its `{token}`s substituted.
+ *
+ * Exported separately from {@link pageContent} because the not-found page needs
+ * the strings and nothing else — no table rows, no chart figures. Building a whole
+ * page's content to read four sentences of a 404 would pay for a table it never
+ * renders.
+ *
+ * Takes a dictionary rather than a locale so a caller that already has one — which
+ * the not-found route does, for the reading direction — does not fetch it twice.
+ */
+export function copyFor(dict: Dictionary): Readonly<Record<CopyKey, string>> {
+  return resolveCopy(dict, tokensFor(dict));
 }
 
 /**

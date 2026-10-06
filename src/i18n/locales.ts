@@ -26,7 +26,7 @@
 import type en from './dictionaries/en.json';
 
 /** Every locale the site ships. Order is the order they appear in the picker. */
-export const LOCALES = ['en', 'tr', 'ar'] as const;
+export const LOCALES = ['en', 'es', 'tr', 'ar'] as const;
 
 export type Locale = (typeof LOCALES)[number];
 
@@ -42,6 +42,7 @@ export const DEFAULT_LOCALE: Locale = 'en';
  */
 export const LOCALE_NAMES: Readonly<Record<Locale, string>> = {
   en: 'English',
+  es: 'Español',
   tr: 'Türkçe',
   ar: 'العربية',
 };
@@ -86,6 +87,7 @@ export type Dictionary = {
  */
 const LOADERS: Readonly<Record<Locale, () => Promise<Dictionary>>> = {
   en: async () => (await import('./dictionaries/en.json')).default,
+  es: async () => (await import('./dictionaries/es.json')).default,
   tr: async () => (await import('./dictionaries/tr.json')).default,
   ar: async () => (await import('./dictionaries/ar.json')).default,
 };

@@ -52,6 +52,11 @@
   "closeLede": "Carats renders on the server and sends the page as it is. No client bundle to grow, no hydration to wait on, no JavaScript standing between a visitor and the content.",
   "closeAction": "Read the documentation",
 
+  "notFoundKicker": "Not found",
+  "notFoundHeading": "This page does not exist.",
+  "notFoundLede": "The address may be mistyped, or the page may have moved.",
+  "notFoundAction": "Read the documentation",
+
   "languageMenuLabel": "Change language",
   "footerMark": "◆ carats v1.0"
 }

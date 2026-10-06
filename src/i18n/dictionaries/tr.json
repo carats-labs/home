@@ -52,6 +52,11 @@
   "closeLede": "Carats sayfayı sunucuda oluşturur ve olduğu gibi gönderir. Büyüyen bir istemci paketi yok, beklenecek bir hydration yok, ziyaretçiyle içerik arasına giren bir JavaScript yok.",
   "closeAction": "Dokümantasyonu inceleyin",
 
+  "notFoundKicker": "Bulunamadı",
+  "notFoundHeading": "Bu sayfa mevcut değil.",
+  "notFoundLede": "Adres yanlış yazılmış olabilir ya da sayfa taşınmış olabilir.",
+  "notFoundAction": "Dokümantasyonu okuyun",
+
   "languageMenuLabel": "Dili değiştir",
   "footerMark": "◆ carats v1.0"
 }

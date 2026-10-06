@@ -1,6 +1,6 @@
 # carats-home
 
-The Carats landing page, on the Carats framework. Server-rendered in three
+The Carats landing page, on the Carats framework. Server-rendered in four
 languages, with the benchmark figures built from a single typed source.
 
 Migrated from an instant-docs project of the same content. Nothing is committed;
@@ -31,9 +31,9 @@ src/
     facts.ts              every measured figure, typed and asserted
     landing-facts.json    transcribed from the benchmark run
   i18n/
-    locales.ts            Locale union, negotiation, path building
-    sheet.ts              the copy, one object per locale
-    props.ts              resolves a locale into props for a page
+    locales.ts            Locale union, negotiation, dictionary loading
+    dictionaries/*.json   the copy, one file per locale
+    props.ts              resolves a locale into content for a page
   server/
     culets.ts             route strings and their props
   client/
@@ -50,16 +50,23 @@ scripts/                  the checks above
 
 Carats has no i18n primitive. There is no `dir` helper, no dictionary loader and
 no locale type — verified against all seven installed packages and their type
-definitions. So localization is built on top, in three pieces.
+definitions. So localization is built on top.
 
 **A locale is part of the URL.** `/`, `/:lang`, `/:lang/:slug`. `matchRoute`
 matches on an exact segment count with no wildcards, so each shape is declared
 explicitly, and declaration order is priority order.
 
-**The sheet is a typed object.** `src/i18n/sheet.ts` holds English as the source
-of truth, which derives the `Sheet` type; `tr` and `ar` are declared as `Sheet`.
-Nothing in `src/client` imports a locale — a culet fetches the sheet on the
-server and it arrives as props, so no copy reaches the browser bundle.
+**Each dictionary is one JSON file.** `src/i18n/dictionaries/{en,es,tr,ar}.json`
+holds a language's copy alongside its own facts — reading direction, numeral
+system, unit labels — under `__`-prefixed keys. English is the reference: the
+`Dictionary` type is derived from `en.json`, so every other file is checked against
+it.
+
+Dictionaries load on demand through a dynamic `import()` in `locales.ts`, one
+chunk each. Loading `/tr` does not also fetch `en.json` and `ar.json`, and a
+reader who never switches language never downloads them. The two facts the picker
+needs before any dictionary has loaded — each language's endonym — live in
+`LOCALE_NAMES` instead.
 
 **The compiler is the missing-key check.** Adding a measurement adds a `RowId`,
 which makes `rowLabels` incomplete, which makes every locale fail to typecheck
@@ -67,10 +74,15 @@ until it is translated. The previous project had a generator that filled `tr` an
 `ar` from English, printed a note about the untranslated keys, and exited `0` — so
 a Turkish reader was served English dressed as a translation and nothing broke.
 
-Figures are not written into the copy. A sentence says `{caratsGzip}` and the
+Figures are not written into the copy. A sentence says `{caratsPeak}` and the
 value arrives from `BenchmarkFacts`, formatted for the locale, so the number and
-the sentence about it cannot drift apart. Turkish reads `5.436`; English and
-Arabic read `5,436`.
+the sentence about it cannot drift apart. Spanish and Turkish read `5.436`;
+English and Arabic read `5,436`.
+
+`scripts/check-token-parity.mjs` covers what the compiler cannot: a key that
+exists but has lost its `{token}`. `check:tokens:selftest` mutates the dictionaries
+and requires the check to reject each change — including the ones the compiler
+stays silent about, so the two mechanisms are known not to overlap.
 
 ### What a locale cannot do
 
@@ -110,10 +122,13 @@ Things worth knowing before changing this code:
   `res.status(200)` regardless of the URL, and `CaratsServerEntry.render` returns
   only `{ html, head }`, so there is no framework way to set a status. `app.ts`
   pins `404` by holding `writeHead` for paths no route can serve.
-- **`/:lang` matches anything.** The route pattern does not constrain the segment,
-  so `/de` reaches the landing page. It resolves to `{ ok: false }` and renders
-  the not-found body rather than falling back to English under a URL that names a
-  fourth language.
+- **An unmatched first segment renders the not-found page.** `/de` matches no route
+  — each locale is a literal path, not a `/:lang` pattern — so `getPageComponent`
+  returns its own fallback and the framework answers `404` from `app.ts`. Nothing
+  falls back to English under a URL naming a language the site does not have.
+- **Do not import a dictionary at module scope.** That is what pulls all four into
+  the entry chunk. `locales.ts` imports each one inside a loader function for that
+  reason, which is why the page components are `async`.
 - **Attributes are `Record<string, string>`.** `<video autoplay>` is a type error;
   `autoplay=""` is both what the types ask for and what reaches the browser.
 - **Partial stylesheets do not import `base.sass`.** The tokens are custom
@@ -124,11 +139,15 @@ Things worth knowing before changing this code:
 
 `bun run check:weight` reports what a visitor downloads for **this** page:
 
-| locale | html gzip | css gzip | js gzip | total |
-|---|---|---|---|---|
-| en | 3.5 kB | 3.7 kB | 11.3 kB | 18.6 kB |
-| tr | 3.8 kB | 3.7 kB | 11.3 kB | 18.9 kB |
-| ar | 4.0 kB | 3.7 kB | 11.3 kB | 19.0 kB |
+| locale | html gzip | css gzip | js gzip | dictionary gzip | total |
+|---|---|---|---|---|---|
+| en | 3.5 kB | 3.7 kB | 11.3 kB | 1.2 kB | 19.8 kB |
+| es | 3.8 kB | 3.7 kB | 11.3 kB | 1.3 kB | 20.1 kB |
+| tr | 3.8 kB | 3.7 kB | 11.3 kB | 1.4 kB | 20.2 kB |
+| ar | 4.0 kB | 3.7 kB | 11.3 kB | 1.6 kB | 20.6 kB |
+
+The dictionary is a separate row because each one is its own chunk, fetched only
+for the language being read. `bun run check:weight` measures the rest.
 
 These are not the figures the page quotes. Every number in the benchmark table —
 5,436 B against 176,227 B, 1,541 ms against 7,283 ms — belongs to

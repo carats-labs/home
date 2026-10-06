@@ -1,0 +1,62 @@
+{
+  "__dir": "ltr",
+  "__numberLocale": "es-ES",
+  "__dateLocale": "es-ES",
+  "__units": {
+    "rps": "pet/s"
+  },
+
+  "heroEyebrow": "Brillo largamente esperado",
+  "heroTitle": "Carats",
+  "heroLine1": "El framework refinado que estabas buscando.",
+  "heroLine2": "Creado para un rendimiento impecable.",
+  "installLabel": "Ponlo en marcha",
+  "copy": "copiar",
+  "copied": "copiado",
+  "docsLink": "Documentación",
+
+  "receiptKicker": "La evaluación completa",
+  "receiptHeading": "Cada faceta, medida",
+  "receiptLede": "Cada afirmación de Carats, puesta a prueba frente al competidor más fuerte del sector.",
+  "tableCaption": "Comparación medida entre Carats y Next.js sobre la misma aplicación de cinco rutas, ordenada según la magnitud de la diferencia.",
+  "columnMetric": "Medición",
+  "columnMargin": "Ventaja de Carats",
+  "rowLabels": {
+    "js": "JavaScript enviado al navegador, gzip",
+    "payload": "Peso total de la página, gzip",
+    "buildout": "Tamaño de la compilación",
+    "disk": "Espacio en disco, instalado y compilado",
+    "pageload": "Carga de la página, de principio a fin",
+    "rps": "Techo de rendimiento",
+    "devwarm": "Desarrollo, segunda carga de la página",
+    "build": "Compilación de producción, mediana",
+    "devstart": "Arranque del servidor de desarrollo",
+    "prodstart": "Arranque del servidor de producción",
+    "assets": "Recursos por página",
+    "deps": "Dependencias directas",
+    "memory": "Memoria que añade el framework"
+  },
+  "receiptNote": "Carats se probó en Bun {bun} y Next.js en Node {node}.",
+  "receiptMethod": "Cada framework respondió a {sequential} peticiones secuenciales y después a {perLevel} en cada uno de los cinco niveles de concurrencia. Registrado el {recordedOn}.",
+
+  "loadKicker": "Bajo presión",
+  "loadHeading": "A medida que sube la carga, se abre la brecha",
+  "loadLede": "Los mismos dos servidores, {perLevel} peticiones en cada uno de los cinco niveles de concurrencia. Un framework que no puede absorber la carga lo paga en cada petición que atiende.",
+  "chartCaption": "Peticiones por segundo con una concurrencia de 1 a 200. Carats alcanza su techo en {caratsPeak} pet/s y Next.js en {nextjsPeak}.",
+  "chartUnit": "Peticiones atendidas por segundo",
+  "chartScaleNote": "Las barras están escaladas a un máximo de {max} peticiones por segundo.",
+  "chartAxisConcurrency": "Peticiones concurrentes",
+  "loadNote": "Con cuatro veces más concurrencia, Next.js gana solo un {nextjsPlateau}%: un techo, no una curva. Carats gana un {caratsPlateau}% en ese mismo intervalo y todavía subía cuando terminó la prueba.",
+
+  "closeHeading": "Solo recortamos el exceso.",
+  "closeLede": "Carats renderiza en el servidor y envía la página tal cual. Sin paquete de cliente que crezca, sin hidratación que esperar, sin JavaScript entre el visitante y el contenido.",
+  "closeAction": "Leer la documentación",
+
+  "notFoundKicker": "No encontrado",
+  "notFoundHeading": "Esta página no existe.",
+  "notFoundLede": "Puede que la dirección esté mal escrita o que la página se haya movido.",
+  "notFoundAction": "Leer la documentación",
+
+  "languageMenuLabel": "Cambiar de idioma",
+  "footerMark": "◆ carats v1.0"
+}
