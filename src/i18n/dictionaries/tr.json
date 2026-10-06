@@ -1,0 +1,57 @@
+{
+  "__dir": "ltr",
+  "__numberLocale": "tr-TR",
+  "__dateLocale": "tr-TR",
+  "__units": {
+    "rps": "istek/sn"
+  },
+
+  "heroEyebrow": "Beklenen parıltı",
+  "heroTitle": "Carats",
+  "heroLine1": "Aradığınız seçkin altyapı.",
+  "heroLine2": "Kusursuz performans için titizlikle işlendi.",
+  "installLabel": "Hayata geçirin",
+  "copy": "kopyala",
+  "copied": "kopyalandı",
+  "docsLink": "Dokümantasyon",
+
+  "receiptKicker": "Eksiksiz değerleme",
+  "receiptHeading": "Her yönüyle ölçüldü",
+  "receiptLede": "Carats’ın her iddiası, alanın en güçlü rakibine karşı sınandı.",
+  "tableCaption": "Carats ile Next.js’in aynı beş rotalı uygulama üzerindeki ölçülmüş karşılaştırması, farkın büyüklüğüne göre sıralı.",
+  "columnMetric": "Ölçüm",
+  "columnMargin": "Carats farkı",
+  "rowLabels": {
+    "js": "Tarayıcıya giden JavaScript, gzip",
+    "payload": "Toplam sayfa ağırlığı, gzip",
+    "buildout": "Yalnızca derleme çıktısı",
+    "disk": "Diskte kapladığı alan, kurulu ve derlenmiş",
+    "pageload": "Sayfa yükleme, uçtan uca",
+    "rps": "Tepe istek kapasitesi",
+    "devwarm": "Geliştirme, ikinci sayfa yükleme",
+    "build": "Üretim derlemesi, medyan",
+    "devstart": "Geliştirme sunucusu açılışı",
+    "prodstart": "Üretim sunucusu açılışı",
+    "assets": "Sayfa başına kaynak",
+    "deps": "Doğrudan bağımlılık sayısı",
+    "memory": "Framework’ün bellek yükü"
+  },
+  "receiptNote": "Carats, Bun {bun}; Next.js ise Node {node} üzerinde test edildi.",
+  "receiptMethod": "Her framework {sequential} ardışık isteğe, ardından beş eşzamanlılık düzeyinin her birinde {perLevel} isteğe yanıt verdi. Ölçüm tarihi: {recordedOn}.",
+
+  "loadKicker": "Basınç altında",
+  "loadHeading": "Yük arttıkça fark açılır",
+  "loadLede": "Aynı iki sunucu, beş eşzamanlılık düzeyinin her birinde {perLevel} istek. Yükü kaldıramayan bir altyapı, sunduğu her istekte bedel öder.",
+  "chartCaption": "Eşzamanlılık 1 ile 200 arasında saniyedeki istek sayısı. Carats {caratsPeak} istek/sn ile zirveye çıkıyor, Next.js {nextjsPeak} ile.",
+  "chartUnit": "Saniyede sunulan istek sayısı",
+  "chartScaleNote": "Çubuklar, saniyede en fazla {max} isteğe göre ölçeklenmiştir.",
+  "chartAxisConcurrency": "Eşzamanlı istekler",
+  "loadNote": "Eşzamanlılığı dört katına çıkardığınızda Next.js yalnızca %{nextjsPlateau} kazanıyor; bu bir eğri değil, bir tavan. Carats aynı aralıkta %{caratsPlateau} kazanıyor ve ölçüm bittiğinde hâlâ tırmanıyordu.",
+
+  "closeHeading": "Yalnızca fazlalığı kestik.",
+  "closeLede": "Carats sayfayı sunucuda oluşturur ve olduğu gibi gönderir. Büyüyen bir istemci paketi yok, beklenecek bir hydration yok, ziyaretçiyle içerik arasına giren bir JavaScript yok.",
+  "closeAction": "Dokümantasyonu inceleyin",
+
+  "languageMenuLabel": "Dili değiştir",
+  "footerMark": "◆ carats v1.0"
+}

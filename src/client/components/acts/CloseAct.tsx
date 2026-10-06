@@ -10,25 +10,25 @@ const INSTALL_COMMAND = 'bun create carats';
  * on fine print ends on its smallest, quietest text instead of the command.
  */
 export default function CloseAct({ props }: { props: PageContent }) {
-  const { sheet } = props;
+  const { copy } = props;
 
   return (
     <section class="act act-close" aria-labelledby="close-heading">
       <div class="shell close-shell reveal">
-        <h2 id="close-heading">{sheet.closeHeading}</h2>
-        <p class="lede close-lede">{sheet.closeLede}</p>
+        <h2 id="close-heading">{copy.closeHeading}</h2>
+        <p class="lede close-lede">{copy.closeLede}</p>
 
         <div class="close-pair">
-          <bdi class="command command-close" title={sheet.copy} data-copy-command>
+          <bdi class="command command-close" title={copy.copy} data-copy-command>
             <span class="prompt">$</span>
             <span class="cmd-text">bun</span>
             <span class="cmd-arg">create</span>
             <span class="cmd-name">carats</span>
-            <CopyButton label={sheet.copy} copied={sheet.copied} />
+            <CopyButton label={copy.copy} copied={copy.copied} />
           </bdi>
 
           <a class="secondary-action" href="https://docs.carats.dev">
-            <span>{sheet.closeAction}</span>
+            <span>{copy.closeAction}</span>
             <span class="action-arrow" aria-hidden="true" />
           </a>
         </div>

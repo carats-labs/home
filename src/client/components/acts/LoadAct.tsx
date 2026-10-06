@@ -41,22 +41,22 @@ function Series({ name, values, isCarats }: SeriesProps) {
  * has to hold in their head.
  */
 export default function LoadAct({ props }: { props: PageContent }) {
-  const { sheet, figures } = props;
+  const { copy, figures } = props;
 
   return (
     <section class="act act-load" aria-labelledby="load-heading">
       <div class="shell">
-        <p class="kicker">{sheet.loadKicker}</p>
+        <p class="kicker">{copy.loadKicker}</p>
         <h2 id="load-heading" class="reveal">
-          {sheet.loadHeading}
+          {copy.loadHeading}
         </h2>
-        <p class="lede lede-wide reveal">{sheet.loadLede}</p>
+        <p class="lede reveal">{copy.loadLede}</p>
 
         <figure class="chart reveal" data-chart>
-          <figcaption class="sr-only">{sheet.chartCaption}</figcaption>
+          <figcaption class="sr-only">{copy.chartCaption}</figcaption>
           {/* sighted readers get the unit; the caption carries it for assistive tech */}
           <p class="chart-unit" aria-hidden="true">
-            {sheet.chartUnit}
+            {copy.chartUnit}
           </p>
 
           <div class="chart-grid" aria-hidden="true">
@@ -81,7 +81,7 @@ export default function LoadAct({ props }: { props: PageContent }) {
           </div>
 
           <div class="chart-axis" aria-hidden="true">
-            <span class="chart-axis-title">{sheet.chartAxisConcurrency}</span>
+            <span class="chart-axis-title">{copy.chartAxisConcurrency}</span>
             <div class="chart-ticks">
               {figures.sweep.map((s) => (
                 <span>{s.level}</span>
@@ -90,13 +90,13 @@ export default function LoadAct({ props }: { props: PageContent }) {
           </div>
         </figure>
 
-        <p class="note reveal">{sheet.loadNote}</p>
+        <p class="note reveal">{copy.loadNote}</p>
       </div>
 
       {/* Translated, and carrying the locale's own digit grouping. This line was
           previously a template literal in the component, so it stayed English on
           the Turkish and Arabic pages. */}
-      <p class="sr-only">{sheet.chartScaleNote}</p>
+      <p class="sr-only">{copy.chartScaleNote}</p>
     </section>
   );
 }

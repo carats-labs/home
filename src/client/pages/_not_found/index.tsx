@@ -1,6 +1,6 @@
 import { beforeMount } from '@carats/hooks';
 import type { CaratsComponent } from '@carats/render';
-import { LOCALES, LOCALE_BCP47, LOCALE_NAMES, localePath, type Locale } from '../../../i18n/locales';
+import { LOCALES, LOCALE_NAMES, DEFAULT_LOCALE, direction, dictionary, localePath, type Locale } from '../../../i18n/locales';
 import './notfound.sass';
 
 interface Copy {
@@ -31,13 +31,17 @@ const COPY: Readonly<Record<Locale, Copy>> = {
   },
 };
 
-const DEFAULT: Locale = 'en';
-
 const asLocale = (value: string | undefined): Locale | null =>
   value !== undefined && (LOCALES as readonly string[]).includes(value) ? (value as Locale) : null;
 
-/** Resolves a URL segment to a locale, or the default when it names none we have. */
-export const localeOf = (lang: string | undefined): Locale => asLocale(lang) ?? DEFAULT;
+/**
+ * Resolves a URL segment to a locale, or the default when it names none we have.
+ *
+ * `/de` has no dictionary, so there is nothing to write that page's copy in beyond
+ * the default — which is the honest answer for a 404, and the reason the not-found
+ * copy is a separate table from the dictionaries rather than a key inside them.
+ */
+export const localeOf = (lang: string | undefined): Locale => asLocale(lang) ?? DEFAULT_LOCALE;
 
 /**
  * The not-found page body.
@@ -61,7 +65,7 @@ export function NotFoundBody({ locale }: { locale: Locale }) {
 
       <nav class="locales" aria-label={copy.kicker}>
         {LOCALES.map((code) => (
-          <a href={localePath(code)} hreflang={LOCALE_BCP47[code]} lang={LOCALE_BCP47[code]}>
+          <a href={localePath(code)} hreflang={code} lang={code}>
             {LOCALE_NAMES[code]}
           </a>
         ))}
@@ -78,13 +82,21 @@ export function NotFoundBody({ locale }: { locale: Locale }) {
  * its props — which the culet supplies as the raw segment — and never reads the
  * document, which does not exist there.
  */
-export default function NotFound(this: CaratsComponent, props?: { lang?: string }) {
+NotFound.status = 404;
+export default async function NotFound(this: CaratsComponent, props?: { lang?: string }) {
   const locale = localeOf(props?.lang);
   const copy = COPY[locale];
+  this.status = 404;
+
+  // Async for the dictionary, and only for `__dir`: the page's own copy is the COPY
+  // table above, so this is one small fetch to learn which way the page reads. The
+  // alternative is a second list of RTL locales beside the dictionaries, and two
+  // lists cannot be checked against each other.
+  const dir = direction(await dictionary(locale));
 
   beforeMount(() => {
-    document.documentElement.lang = LOCALE_BCP47[locale];
-    document.documentElement.dir = locale === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = locale;
+    document.documentElement.dir = dir;
   });
 
   this.head = (
@@ -97,3 +109,4 @@ export default function NotFound(this: CaratsComponent, props?: { lang?: string 
 
   return <NotFoundBody locale={locale} />;
 }
+

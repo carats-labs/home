@@ -1,26 +1,35 @@
 /**
  * Server-side props.
  *
- * A culet is keyed by the exact route string used in `facets.tsx`, so the two
- * files have to agree. The route strings are declared here and imported by the
- * facets, so a typo cannot leave a culet silently unregistered.
+ * There is exactly one culet, and its existence is the reason every other route
+ * has none.
+ *
+ * A culet is the only way a component can receive props that come from the
+ * *request* rather than the URL: `Accept-Language` has no equivalent in the
+ * browser, so the bare `/` cannot derive its language and has to be handed one.
+ * Every other route knows its language from its own path and reads it from its own
+ * params, which is what lets the client re-render those routes with no network at
+ * all, and therefore what lets a static host serve them.
+ *
+ * Registering a culet for `/en` as well would be harmless on the server and fatal
+ * on the client: a culet makes its component's props arrive over `/culet/*`, and
+ * that endpoint does not exist once the output is a directory of HTML files.
  */
-import { culet, type CuletArgs } from '@carats/ssr';
+import { culet } from '@carats/ssr';
 import { assertFactsUnchanged } from '../benchmark/facts';
-import {
-  resolvePageProps,
-  rootPageProps,
-  type LocalePageProps,
-} from '../i18n/props';
+import { rootPageProps } from '../i18n/props';
 
-/** Route strings, shared with the facets so the two cannot drift apart. */
+/**
+ * The one route that needs a culet, named here so the facets cannot drift from it.
+ *
+ * The not-found patterns live in `facets.tsx`, where they are declared for
+ * matching order rather than for props. They need no culet: the framework hands a
+ * route its own params, so `lang` arrives from the path and both sides resolve it
+ * the same way.
+ */
 export const ROUTES = {
   /** Bare `/` — the language is negotiated from Accept-Language. */
   root: '/',
-  /** `/:lang`, the landing page in a specific language. */
-  home: '/:lang',
-  /** `/:lang/:slug`, for the secondary pages. */
-  page: '/:lang/:slug',
 } as const;
 
 /**
@@ -33,24 +42,11 @@ export const ROUTES = {
 assertFactsUnchanged();
 
 /**
- * Props for a locale route.
+ * Props for the bare root, and only there.
  *
- * `params.lang` is `Record<string, string>` from the router, so it may be absent
- * even on a route that declares it. `resolvePageProps` narrows it: an unsupported
- * language produces `{ ok: false }` rather than a fallback, and the page renders
- * its not-found state instead of English under a foreign URL.
+ * `/en`, `/tr` and `/ar` deliberately have no culet. Without one the server
+ * resolves them the same way the client does — `{ ...params, ...defaultProps }` —
+ * so both sides build the page from the same input and cannot disagree about what
+ * `/en` renders.
  */
-const fromParams = ({ params }: CuletArgs): LocalePageProps => resolvePageProps(params.lang);
-
-culet<LocalePageProps>(ROUTES.root, ({ headers }) => rootPageProps(headers['accept-language']));
-culet<LocalePageProps>(ROUTES.home, fromParams);
-
-/**
- * The not-found route's props.
- *
- * Only the raw segment, so the page can say the not-found copy in the language
- * that was asked for. `/en/nonsense` should read "This page does not exist" in
- * English and `/ar/nonsense` in Arabic, rather than reverting every reader to
- * English because they reached a dead end.
- */
-culet<{ lang: string }>(ROUTES.page, ({ params }) => ({ lang: params.lang ?? '' }));
+culet(ROUTES.root, ({ headers }) => rootPageProps(headers['accept-language']));

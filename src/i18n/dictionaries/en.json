@@ -1,0 +1,57 @@
+{
+  "__dir": "ltr",
+  "__numberLocale": "en-US",
+  "__dateLocale": "en-GB",
+  "__units": {
+    "rps": "rps"
+  },
+
+  "heroEyebrow": "Long-awaited brilliance",
+  "heroTitle": "Carats",
+  "heroLine1": "The refined framework you've been looking for.",
+  "heroLine2": "Crafted for flawless performance.",
+  "installLabel": "Bring it to life",
+  "copy": "copy",
+  "copied": "copied",
+  "docsLink": "Documentation",
+
+  "receiptKicker": "The full appraisal",
+  "receiptHeading": "Every facet, measured",
+  "receiptLede": "Every claim Carats makes, tested against the field's strongest contender.",
+  "tableCaption": "Measured comparison of Carats and Next.js on the same five-route application, ordered by size of difference.",
+  "columnMetric": "Measurement",
+  "columnMargin": "Carats margin",
+  "rowLabels": {
+    "js": "JavaScript sent to the browser, gzip",
+    "payload": "Total page weight, gzip",
+    "buildout": "Build output size",
+    "disk": "Disk footprint, installed and built",
+    "pageload": "Page load, end to end",
+    "rps": "Throughput ceiling",
+    "devwarm": "Development, second page load",
+    "build": "Production build, median",
+    "devstart": "Development server startup",
+    "prodstart": "Production server startup",
+    "assets": "Assets per page",
+    "deps": "Direct dependencies",
+    "memory": "Memory added by the framework"
+  },
+  "receiptNote": "Carats tested on Bun {bun}, Next.js on Node {node}.",
+  "receiptMethod": "Each framework answered {sequential} sequential requests, then {perLevel} at each of five concurrency levels. Recorded {recordedOn}.",
+
+  "loadKicker": "Under pressure",
+  "loadHeading": "As load rises, the gap widens",
+  "loadLede": "The same two servers, {perLevel} requests at each of five concurrency levels. A framework that cannot absorb load pays for it on every request it serves.",
+  "chartCaption": "Requests per second at concurrency 1 to 200. Carats peaks at {caratsPeak} rps, Next.js at {nextjsPeak} rps.",
+  "chartUnit": "Requests served per second",
+  "chartScaleNote": "Bars are scaled to a maximum of {max} requests per second.",
+  "chartAxisConcurrency": "Concurrent requests",
+  "loadNote": "At four times the concurrency Next.js gains {nextjsPlateau}%: a ceiling, not a curve. Carats gains {caratsPlateau}% over the same range, and was still climbing when the test ended.",
+
+  "closeHeading": "We cut only the excess.",
+  "closeLede": "Carats renders on the server and sends the page as it is. No client bundle to grow, no hydration to wait on, no JavaScript standing between a visitor and the content.",
+  "closeAction": "Read the documentation",
+
+  "languageMenuLabel": "Change language",
+  "footerMark": "◆ carats v1.0"
+}
