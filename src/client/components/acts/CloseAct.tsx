@@ -10,7 +10,7 @@ const INSTALL_COMMAND = 'bun create carats';
  * on fine print ends on its smallest, quietest text instead of the command.
  */
 export default function CloseAct({ props }: { props: PageContent }) {
-  const { copy } = props;
+  const { copy, locale } = props;
 
   return (
     <section class="act act-close" aria-labelledby="close-heading">
@@ -27,7 +27,7 @@ export default function CloseAct({ props }: { props: PageContent }) {
             <CopyButton label={copy.copy} copied={copy.copied} />
           </bdi>
 
-          <a class="secondary-action" href="https://docs.carats.dev">
+          <a class="secondary-action" href={`https://docs.carats.dev/${locale}/latest`}>
             <span>{copy.closeAction}</span>
             <span class="action-arrow" aria-hidden="true" />
           </a>

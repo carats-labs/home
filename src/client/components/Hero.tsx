@@ -130,7 +130,7 @@ export default function Hero({ props }: { props: PageContent }) {
 
           <span class="action-divider" aria-hidden="true" />
 
-          <a class="action-link" href="https://docs.carats.dev">
+          <a class="action-link" href={`https://docs.carats.dev/${locale}/latest`}>
             <span>{copy.docsLink}</span>
             <span class="action-arrow" aria-hidden="true" />
           </a>

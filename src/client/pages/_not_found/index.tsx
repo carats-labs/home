@@ -38,14 +38,14 @@ export const localeOf = (lang: string | undefined): Locale => asLocale(lang) ?? 
  * Takes the resolved copy rather than a locale, so it holds no lookup of its own
  * and the same body serves any locale the dictionaries carry.
  */
-export function NotFoundBody({ copy }: { copy: Readonly<Record<CopyKey, string>> }) {
+export function NotFoundBody({ copy, locale }: { copy: Readonly<Record<CopyKey, string>>; locale: Locale }) {
   return (
     <div class="notfound">
       <p class="kicker">{copy.notFoundKicker}</p>
       <h1>{copy.notFoundHeading}</h1>
       <p class="lede">{copy.notFoundLede}</p>
 
-      <a class="action" href="https://docs.carats.dev">
+      <a class="action" href={`https://docs.carats.dev/${locale}/latest`}>
         {copy.notFoundAction}
       </a>
 
@@ -91,5 +91,5 @@ export default async function NotFound(this: CaratsComponent, props?: { lang?: s
     </>
   );
 
-  return <NotFoundBody copy={copy} />;
+  return <NotFoundBody copy={copy} locale={locale} />;
 }
