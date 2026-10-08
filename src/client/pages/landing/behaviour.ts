@@ -173,7 +173,7 @@ function armCopyButtons(): Cleanup {
 
   const onClick = async (button: HTMLButtonElement): Promise<void> => {
     const text = button.dataset.copy ?? '';
-    const label = button.textContent ?? '';
+    const label = button.dataset.label ?? '';
     const done = button.dataset.copiedLabel ?? label;
 
     try {

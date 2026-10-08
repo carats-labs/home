@@ -59,6 +59,12 @@
      page: the media and the wordmark sit well inside the screen, while body copy
      is allowed closer to the edge. */
   --hero-gutter: 8vw
+  /* Vertical breathing for the hero. The top value has to clear the language
+     picker, which is out of the flow and pinned to the page's top corner: the
+     hero used to carry no vertical padding at all, so its first line of text
+     began at y=0 and ran alongside the picker instead of below it. */
+  --hero-pad-top: clamp(96px, 12vh, 148px)
+  --hero-pad-bottom: clamp(56px, 8vh, 96px)
 
   --radius: 8px
   --radius-lg: 14px
@@ -107,6 +113,7 @@ h1, h2
   text-wrap: balance
 
 p
+  text-wrap: balance
   margin: 0
 
 a

@@ -103,7 +103,16 @@
   justify-content: center
   align-items: center
   min-height: 100vh
-  padding: 0 var(--hero-gutter)
+  // The small-viewport unit, kept as a second declaration so a browser without
+  // it keeps the vh fallback. 100vh measures against a viewport that includes
+  // the space a phone's browser chrome takes, so the hero was always taller than
+  // the screen actually had.
+  min-height: 100svh
+  // The hero used to have no vertical padding at all: `.page` centred a block
+  // taller than the viewport, so its first line of text sat at y=0 against the
+  // browser chrome and the last control fell past the fold. The top value also
+  // clears the language picker, which is out of flow in the corner.
+  padding: var(--hero-pad-top) var(--hero-gutter) var(--hero-pad-bottom)
 
 .hero
   display: grid
@@ -203,6 +212,11 @@ h1
   display: block
   width: var(--hero-col-media)
   height: 430px
+  // `max-height` constrains the box without preserving the video's 380x430
+  // ratio, so without this the diamond is stretched into whatever shape the box
+  // happens to be. `contain` keeps it true and centres it in the box, which
+  // matters most on a phone, where the box is clamped hardest.
+  object-fit: contain
   mix-blend-mode: lighten
 
 /* --------------------------------------------------------- install command */
@@ -764,11 +778,14 @@ h1
 
   /* The video keeps its aspect ratio and is bounded by the viewport, so on a
    phone it shrinks proportionally instead of being squashed into a small box.
-   A hard-coded width here is what made the mobile hero look wrong. */
+   A hard-coded width here is what made the mobile hero look wrong.
+   Capped in `svh` rather than `vh`: a phone's `vh` includes the space its
+   browser chrome occupies, so the media claimed height the reader could not
+   see and pushed the install command off the bottom of the screen. */
   .hero-media
     width: min(var(--hero-col-media), 78vw)
     height: auto
-    max-height: 40vh
+    max-height: 34svh
 
   .action-row
     max-width: 100%
@@ -783,14 +800,72 @@ h1
     letter-spacing: 0.14em
 
 @media (max-width: 620px)
-  /* The language toggle is out of flow in the inline-end corner, so on a phone
-   the letter-spaced eyebrow ran underneath it — in English its tail finished
-   22px behind the toggle, and a longer translation would have run further
-   under. Reserving the toggle's own footprint keeps the two apart whatever
-   the locale says, and mirrors for free because `.language-nav` is anchored
-   with `inset-inline-end`. */
+  /* The hero's own vertical rhythm, tightened for a screen 667px tall. The
+   default 30px gap plus a 48px run-in to the install block was 78px of
+   vertical air on a phone — 12% of the screen spent on nothing.
+   `--hero-pad-top` is fixed rather than a vh fraction because it is not
+   really about proportion: it is the distance that puts the hero's first line
+   clear of the language picker sitting in the corner above it. Deriving it
+   from the viewport made that distance drift with the screen for no reason. */
+  :root
+    --hero-pad-top: 68px
+    --hero-pad-bottom: 24px
+
+  /* Fill the screen, but stop growing at 720px. The install block below hangs
+   off a `margin-top: auto`, which means the hero's height is what decides how
+   much air sits above it — left unbounded, a tall phone would open a 170px
+   void between the media and the install block. Capping the hero makes the
+   acts begin promptly instead. */
+  .page
+    min-height: min(100svh, 720px)
+
+  /* The media is the only elastic part of the stack, so it is what absorbs a
+   short screen. Both terms matter: the viewport fraction keeps the diamond
+   from eating a small phone's whole hero, and the pixel ceiling stops a tall
+   one from inflating it past what the rest of the stack needs. Measured
+   against the install block at 640px, 667px and 844px of viewport height. */
+  .hero-media
+    max-height: min(28svh, 220px)
+
+  /* Pinned to the same 68px the hero's text now starts at, so the picker reads
+   as sitting in the margin above the hero rather than floating in the page. */
+  .language-nav
+    top: 16px
+
+  /* The eyebrow used to reserve 112px of its own width for the language toggle
+   so the two would not overlap. That reserve is what forced it to wrap to two
+   lines on a phone — "Long-awaited brilliance" is 21 characters and simply does
+   not fit a 203px box. Now that `.page` carries top padding, the eyebrow sits
+   *below* the picker rather than beside it, so the reserve is doing the job of
+   a problem that no longer exists, and it can go. */
   .eyebrow
-    padding-inline-end: 112px
+    padding-inline-end: 0
+    margin-bottom: 14px
+
+  /* The stack's own air, tightened. A 30px gap above the media and a 48px
+   run-in to the install block is 78px on a screen 667px tall — 12% of the
+   viewport spent on nothing, and enough to push the last control past the
+   fold. */
+  .hero
+    gap: 16px
+
+  /* Anchored to the foot of the hero rather than trailing the media by a fixed
+   gap. The install block is the hero's last line: on a phone it should sit
+   against the bottom of the screen, the way a native app puts its primary
+   action against the bottom of its own view, and not be reached by whatever
+   margin happened to be left over.
+   An `auto` top margin degrades to zero if the stack ever outgrows the
+   viewport, so this cannot push the block off the screen — the worst case is
+   the layout it replaces. */
+  .action-row
+    margin-top: auto
+
+  .action-label
+    margin-bottom: 10px
+
+  .command
+    flex-wrap: wrap
+    padding: 12px 18px
 
   .table
     font-size: 11px

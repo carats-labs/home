@@ -17,7 +17,7 @@ interface CopyProps {
  */
 function CopyButton({ label, copied }: CopyProps) {
   return (
-    <button type="button" class="copy" data-copy={INSTALL_COMMAND} data-copied-label={copied}>
+    <button type="button" class="copy" data-copy={INSTALL_COMMAND} data-label={label} data-copied-label={copied}>
       {label}
     </button>
   );
