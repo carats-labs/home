@@ -1,27 +1,8 @@
 import type { PageContent } from '../../i18n/props';
 import { LOCALE_NAMES, LOCALES } from '../../i18n/locales';
+import CopyButton from './CopyButton';
 
 const INSTALL_COMMAND = 'bun create carats';
-
-interface CopyProps {
-  readonly label: string;
-  readonly copied: string;
-}
-
-/**
- * The copy control.
- *
- * The label is carried in a `data-` attribute rather than baked into the click
- * handler, so the same component works in all three locales: one implementation,
- * three strings, and switching language cannot leave a stale label behind.
- */
-function CopyButton({ label, copied }: CopyProps) {
-  return (
-    <button type="button" class="copy" data-copy={INSTALL_COMMAND} data-label={label} data-copied-label={copied}>
-      {label}
-    </button>
-  );
-}
 
 /**
  * The language picker.
@@ -125,7 +106,7 @@ export default function Hero({ props }: { props: PageContent }) {
             <span class="cmd-text">bun</span>
             <span class="cmd-arg">create</span>
             <span class="cmd-name">carats</span>
-            <CopyButton label={copy.copy} copied={copy.copied} />
+            <CopyButton data={INSTALL_COMMAND} label={copy.copy} copied={copy.copied} />
           </bdi>
 
           <span class="action-divider" aria-hidden="true" />

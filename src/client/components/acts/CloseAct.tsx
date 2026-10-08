@@ -1,4 +1,5 @@
 import type { PageContent } from '../../../i18n/props';
+import CopyButton from '../CopyButton';
 
 const INSTALL_COMMAND = 'bun create carats';
 
@@ -24,7 +25,7 @@ export default function CloseAct({ props }: { props: PageContent }) {
             <span class="cmd-text">bun</span>
             <span class="cmd-arg">create</span>
             <span class="cmd-name">carats</span>
-            <CopyButton label={copy.copy} copied={copy.copied} />
+            <CopyButton data={INSTALL_COMMAND} label={copy.copy} copied={copy.copied} />
           </bdi>
 
           <a class="secondary-action" href={`https://docs.carats.dev/${locale}/latest`}>
@@ -34,19 +35,5 @@ export default function CloseAct({ props }: { props: PageContent }) {
         </div>
       </div>
     </section>
-  );
-}
-
-/**
- * The copy control, shared by the hero and the close so both behave identically.
- *
- * `type="button"` matters: without it a button inside a form defaults to submit,
- * and this one is a label that happens to be clickable.
- */
-function CopyButton({ label, copied }: { label: string; copied: string }) {
-  return (
-    <button type="button" class="copy" data-copy={INSTALL_COMMAND} data-copied-label={copied}>
-      {label}
-    </button>
   );
 }
